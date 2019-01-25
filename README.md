@@ -6,7 +6,16 @@ A cool game yet to be created for the GGJ 2019
 
 Don't know yet!
 
-## How to build
+## How to build 
 
-Some stuff to do with our cute love2d framework
+### Windows
+
+Execute the script `build_windows.sh`, deflate the obtained zip
+and run `game.exe`.
+
+### Linux
+
+1.) Download the official LÖVE package [here](https://www.love2d.org/)
+2.) Call `love` (or another command depending from your distribution/installation method) on the `game.love` file, in
+`dist` folder
 

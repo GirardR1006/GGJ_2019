@@ -7,9 +7,10 @@ In this file, we will load resources and make all the neat calculations.
 
 
 --Dofile is to include a lua file and its content
+--love.filesystem is a wrapper around this, working on multiple OSes
 --WARNING: not actually implemented (yet), this is just an example
-local module_a = dofile "GGJ_2019_files/module_a.lua"
-local module_b = dofile "GGJ_2019_files/module_b.lua"
+local module_a = love.filesystem.load("module_a.lua")
+local module_b = love.filesystem.load("module_b.lua")
 --local HC = require "HC" --Need HadronCollider module to be installed
 
 
