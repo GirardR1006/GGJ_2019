@@ -11,7 +11,7 @@ In this file, we will load resources and make all the neat calculations.
 --WARNING: not actually implemented (yet), this is just an example
 local module_a = love.filesystem.load("module_a.lua")
 local module_b = love.filesystem.load("module_b.lua")
---local HC = require "HC" --Need HadronCollider module to be installed
+local HC = require "HC" --Need HadronCollider module to be installed
 
 
 --[[
@@ -46,6 +46,12 @@ function love.load()
     --Setting screen
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
+	local joysticks = love.joystick.getJoysticks()
+	joystick=joysticks[1]
+	charPos1 = {x= 300, y=300}
+	charPos2 = {x= 500, y=300}
+	charSpeed=300
+	
 end
 
 
@@ -55,6 +61,8 @@ function love.draw()
     if state.level then
         --TODO: fill here with our wonderful game
         love.graphics.print('The game is supposed to be running now', screenWidth/2,screenHeight/2,0,1,1)
+		love.graphics.circle("fill",charPos1.x,charPos1.y,20)
+		love.graphics.circle("fill",charPos2.x,charPos2.y,20)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then
@@ -67,6 +75,22 @@ end
 -- dt is usually 0.1s on a i3 2012 laptop
 function move(dt)
     --TODO: moving
+	xAxis1 = joystick:getAxis(1)
+	yAxis1 = joystick:getAxis(2)
+	xAxis2 = joystick:getAxis(4)
+	yAxis2 = joystick:getAxis(5)
+	if math.abs(xAxis1)>0.1 then
+		charPos1.x = charPos1.x + xAxis1*charSpeed*dt
+	end
+	if math.abs(yAxis1)>0.1 then
+		charPos1.y = charPos1.y + yAxis1*charSpeed*dt
+	end
+	if math.abs(xAxis2)>0.1 then
+		charPos2.x = charPos2.x + xAxis2*charSpeed*dt
+	end
+	if math.abs(yAxis2)>0.1 then
+		charPos2.y = charPos2.y + yAxis2*charSpeed*dt
+	end
 end
 
 -- Function doing all the collision management
