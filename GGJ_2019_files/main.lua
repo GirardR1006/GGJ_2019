@@ -31,18 +31,23 @@ state.level=false
 state.dialog=false
 state.pause=false
 
+--Colours
+local colours = {}
+colours.blue = false
+colours.yellow = false
+
 -- First function to be loaded, load resources and initialize basic objects here
 function love.load()
     --Create a collider table, storing all objects and doing all the calculations for us
     warudo = HC.new(150)
-    --Setting screen
+    --Setting screen dimension
     screenWidth = 1024 --love.graphics.getWidth()
     screenHeight = 768 --love.graphics.getHeight()
     --Setting joystick and players
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]
-	
     player1 = player.create(warudo)
+    spriteJ1= love.graphics.newImage("graphisme/move-bleu-15px/haut-gauche-bleu/haut-gauche-bleu_00.png")
     player2 = player.create(warudo)
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]	
@@ -59,7 +64,8 @@ function love.load()
     --Setting blocks
     block1 = block.create(warudo)
     blocks = {block1}
-	
+    --Setting audio	
+    --music = love.audio.newSource("audio/music.mp3")
 end
 
 
@@ -67,7 +73,6 @@ end
 -- Can vary according to game state
 function love.draw()
     if state.level then
-        love.graphics.print('The game is supposed to be running now', screenWidth/2,screenHeight/2,0,1,1)
 	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
@@ -145,8 +150,6 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
-    --Update broadcast
-    --State transitions
     function love.gamepadpressed(joystick,button)
         pressed=joystick:getAxis(3)
         print(pressed)
@@ -174,6 +177,9 @@ function love.update(dt)
         player.updateGrab(player2)
         manageCollision()
         move(dt)
+        player.updateAnimation(player1,dt)
+        player.updateAnimation(player2,dt)
+        --music:play()
         for i,entity in pairs(blocks) do
             block.release(entity)
         end

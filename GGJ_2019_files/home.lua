@@ -16,15 +16,15 @@ function gridCreate(collider, trWidth)
     end
     grid.m = m
     grid.trWidth = trWidth -- length of the triangle 
+    grid.radius = trWidth*23/2 -- approximate width of grid
     --Real position of the mid left triangle in the plane
-    xA=150
-    yA=150
-    xB=200
-    yB=150
-    xC=175
-    yC=125
+    xA=screenWidth/2 - grid.radius 
+    yA=screenHeight/2
+    xB=xA+trWidth
+    yB=yA
+    xC=xA+trWidth/2
+    yC=yA+trWidth*M.sqrt(3)/2
     grid.midLeft = Polygon(xA,yA,xB,yB,xC,yC) 
-    grid.radius = trWidth*23/2
     --Approximate center of grid
     xCenter = xA+grid.radius
     yCenter = yA
@@ -34,7 +34,7 @@ end
 
 
 --Function returning the coordinates of nearest center 
---in matrix given a real world position
+--in matrix given a real world position, and the delta between them
 function home.getNearestCenter(x,y,grid)
     local firstPoly = grid.midLeft
     local a = grid.trWidth
@@ -45,8 +45,11 @@ function home.getNearestCenter(x,y,grid)
     i = 1 + M.floor(xO)
     j = 1 + M.floor(yO)
     xGrid = xC + i*a
-    yGrid = yC + i*a
-    return i,j,xGrid,yGrid    
+    yGrid = yC + i*a*M.sqrt(3)/2
+    delta = {}
+    delta.x = x - xGrid
+    delta.y = y - yGrid
+    return delta,xGrid,yGrid 
 end
 
 function home.create(collider,trWidth)
