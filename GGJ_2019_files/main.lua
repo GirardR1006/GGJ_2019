@@ -37,7 +37,7 @@ local broadcast={}
 -- First function to be loaded, load resources and initialize basic objects here
 function love.load()
     --Create a collider table, storing all objects and doing all the calculations for us
-    --warudo = HC.new(150)
+    warudo = HC.new(150)
     --Load resources
     --WARNING: not implemented (yet)
     --a=module_a.createA()
@@ -47,13 +47,13 @@ function love.load()
     --Setting screen
     screenWidth = love.graphics.getWidth()
     screenHeight = love.graphics.getHeight()
-	local joysticks = love.joystick.getJoysticks()
-	joystick=joysticks[1]
+    local joysticks = love.joystick.getJoysticks()
+    joystick=joysticks[1]
 	
-    player1 = player.create()
+    player1 = player.create(warudo)
     player1.xAxisIndex = 1
     player1.yAxisIndex = 2
-    player2 = player.create()
+    player2 = player.create(warudo)
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
 	
