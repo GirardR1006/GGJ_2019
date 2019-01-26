@@ -8,12 +8,12 @@ In this file, we will load resources and make all the neat calculations.
 
 --Dofile is to include a lua file and its content
 --love.filesystem is a wrapper around this, working on multiple OSes
---WARNING: not actually implemented (yet), this is just an example
 local player = love.filesystem.load("player.lua")
 local player = player()
-local module_b = love.filesystem.load("module_b.lua")
+local Home = love.filesystem.load("home.lua")
+local Home = Home()
 local HC = require "HC" --Need HadronCollider module to be installed
-
+Polygon = require "HC.polygon"
 
 --[[
 #####################
@@ -29,33 +29,25 @@ state.level=false
 state.dialog=false
 state.pause=false
 
---A broadcast table storing several informations to be used by differents components of 
---the program. For instance, we can communicate the position of the player to other entities
---Put any properties we want here, and don't forget to update the table when they change!
-local broadcast={} 
-
 -- First function to be loaded, load resources and initialize basic objects here
 function love.load()
     --Create a collider table, storing all objects and doing all the calculations for us
     warudo = HC.new(150)
-    --Load resources
-    --WARNING: not implemented (yet)
-    --a=module_a.createA()
-    --b=module_b.createA()
-    --Create tables storing our ingame entites
-    entities={}
     --Setting screen
-    screenWidth = love.graphics.getWidth()
-    screenHeight = love.graphics.getHeight()
-    local joysticks = love.joystick.getJoysticks()
-    joystick=joysticks[1]
-	
+    screenWidth = 1024 --love.graphics.getWidth()
+    screenHeight = 768 --love.graphics.getHeight()
+    --Setting joystick and players
     player1 = player.create(warudo)
+    player2 = player.create(warudo)
+    local joysticks = love.joystick.getJoysticks()
+    joystick=joysticks[1]	
     player1.xAxisIndex = 1
     player1.yAxisIndex = 2
-    player2 = player.create(warudo)
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
+    --Setting grid
+    triangleWidth = 30
+    ourHome = Home.create(warudo,triangleWidth)
 	
 end
 
@@ -64,10 +56,10 @@ end
 -- Can vary according to game state
 function love.draw()
     if state.level then
-        --TODO: fill here with our wonderful game
         love.graphics.print('The game is supposed to be running now', screenWidth/2,screenHeight/2,0,1,1)
-		player.draw(player1)
+	player.draw(player1)
         player.draw(player2)
+        home.draw(ourHome)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then
