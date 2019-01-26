@@ -47,7 +47,6 @@ function love.load()
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]
     player1 = player.create(warudo)
-    spriteJ1= love.graphics.newImage("graphisme/move-bleu-15px/haut-gauche-bleu/haut-gauche-bleu_00.png")
     player2 = player.create(warudo)
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]	
@@ -58,6 +57,9 @@ function love.load()
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
     player2.grabIndex = 6 
+    --Loading background
+    background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
+    homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
     --Setting grid
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
@@ -73,10 +75,13 @@ end
 -- Can vary according to game state
 function love.draw()
     if state.level then
+        love.graphics.setBackgroundColor(255,255,255)
+        love.graphics.setColor(0,0,0)
 	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
         block.draw(block1)
+        love.graphics.draw(background)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then
