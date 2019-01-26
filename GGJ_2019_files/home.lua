@@ -54,7 +54,7 @@ end
 
 function home.create(collider,trWidth)
     ourHome = {}
-    ourHome.sprite = love.graphics.newImage('graphisme/test.png')
+    ourHome.sprite = homeSprite
     ourHome.grid = gridCreate(collider, trWidth)
     return ourHome
 end
@@ -73,9 +73,12 @@ end
 function home.draw(home)
     local firstPoly = home.grid.midLeft
     local x,y = home.grid.shape:center()
+    local spr = home.sprite
     pointList = extractPointsFromPoly(firstPoly)
     love.graphics.polygon("line",pointList)
     love.graphics.circle("line",x,y, home.grid.radius)
+    love.graphics.circle("fill",x,y, 50)
+    love.graphics.draw(spr,screenWidth/2-spr:getWidth(),screenHeight/2-spr:getHeight())
 end
 
 return home
