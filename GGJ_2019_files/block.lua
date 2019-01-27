@@ -11,6 +11,11 @@ function block.create(collider,variation,color,initX,initY)
         mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+h,initX+a,initY)
         mainBlock.parity = 1
     end
+	if variation == 2 then
+        mainBlock.blockMap={{1,1}}
+        mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+-h,initX+a,initY)
+        mainBlock.parity = -1
+    end
     if variation == 3 then
         mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
         mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX+a/2,initY+h)
@@ -36,6 +41,22 @@ function block.create(collider,variation,color,initX,initY)
 		mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a/2,initY+h)
 		mainBlock.parity = -1 
 	end
+	if variation == 8 then 
+		mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+a,initY, initX+a/2, initY+h, initX-a/2, initY+h)
+		mainBlock.parity = -1 
+	end
+	if variation == 9 then 
+		mainBlock.blockMap = {{1,2},{1,3},{1,4},{2,2},{2,1}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+a, initY, initX+a/2, initY+h, initX-a/2, initY+h)
+		mainBlock.parity = -1 
+	end
+	if variation == 10 then 
+		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,1},{3,1}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+a, initY, initX+a/2, initY+h, initX-a/2, initY+h)
+		mainBlock.parity = -1 
+	end
+	
 
     mainBlock.color = color
     mainBlock.isGrabbed=0
