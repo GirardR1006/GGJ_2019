@@ -16,7 +16,6 @@ local HC = require "HC" --Need HadronCollider module to be installed
 Polygon = require "HC.polygon"
 local block = love.filesystem.load("block.lua")
 local block = block()
-
 --[[
 #####################
 Functions definitions

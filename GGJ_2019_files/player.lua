@@ -41,7 +41,6 @@ end
 function player.newAnimation(image, width, height, duration)
     local animation = {}
     animation.spriteSheet = image
-    print(image)
     animation.quads = {}
     for y = 0, image:getHeight() - height, height do
         for x = 0, image:getWidth() - width, width do
@@ -65,12 +64,15 @@ function player.move(player, dt, joystick) --joystick object
         predicted_x=x+xAxis*player.speed*dt
         if predicted_x+radius < (screenWidth) and predicted_x-radius > 0 then
             player.shape:moveTo(predicted_x,y)
-            if xAxis > 0 then
+            if xAxis > 0.2 then
                 player.direction.right=true
                 player.direction.left=false
-            else
+            elseif xAxis < -0.2 then
                 player.direction.right=false
                 player.direction.left=true
+            else
+                player.direction.right=false
+                player.direction.left=false
             end
         end
     end
@@ -79,12 +81,16 @@ function player.move(player, dt, joystick) --joystick object
         predicted_y=y+yAxis*player.speed*dt
 	    if predicted_y-radius > 0 and  predicted_y+radius < (screenHeight) then
             player.shape:moveTo(x,predicted_y)
-            if yAxis > 0 then
+            if yAxis > 0.2 then
                 player.direction.up=true
                 player.direction.down=false
-            else
+            elseif yAxis < -0.2 then
                 player.direction.up=false
                 player.direction.down=true
+            else
+                player.direction.up=false
+                player.direction.down=false
+
             end
         end
     end
@@ -96,7 +102,7 @@ function player.getSpriteNum(anim)
     return spriteNum
 end
 
-function player.draw(actualPlayer)
+function player.draw(actualPlayer,beginning)
     local x,y = actualPlayer.shape:center()
     local dir = actualPlayer.direction
     local animHR = actualPlayer.animHR
@@ -105,42 +111,68 @@ function player.draw(actualPlayer)
     local animBR = actualPlayer.animBR
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
+    --Offset: the quads are 45 pixels wide
+    local xO = x-45/2
+    local yO = y-45/2
     --Draw correct animation according to direction
     --If moving, the animation goes according to direction
     --Drawing only the first quad is a terrible hack
     --And it's terrible on screen
     --Please forgive me
-    if dir.up then
+    if dir.down then
+        print("Dir down")
         if dir.right then
-            local spriteNum = player.getSpriteNum(animHDR)
-            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNum],x,y)
-            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],x,y)
+            local spriteNumHDR = player.getSpriteNum(animHDR)
+            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNumHDR],xO,yO)
+            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
         elseif dir.left then
             local spriteNum = player.getSpriteNum(animHGR)
-            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[spriteNum],x,y) 
-            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],x,y) 
+            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[spriteNum],xO,yO) 
+            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO) 
+            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+        else
+            local spriteNum = player.getSpriteNum(animHR)
+            love.graphics.draw(animHR.spriteSheet, animHR.quads[spriteNum],xO,yO)
+            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
         end
-        local spriteNum = player.getSpriteNum(animHR)
-        love.graphics.draw(animHR.spriteSheet, animHR.quads[spriteNum],x,y)
-        love.graphics.draw(animBR.spriteSheet, animBR.quads[1],x,y)
-        love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],x,y)
-        love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],x,y)
-    elseif dir.down then
+        love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+        love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+        love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
+
+    elseif dir.up then
+        print("Dir up")
         if dir.right then
             local spriteNum = player.getSpriteNum(animBDR)
-            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[spriteNum],x,y)
-            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],x,y)
+            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[spriteNum],xO,yO)
+            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
         elseif dir.left then
             local spriteNum = player.getSpriteNum(animBGR)
-            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[spriteNum],x,y) 
-            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],x,y) 
+            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[spriteNum],xO,yO) 
+            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO) 
+            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+        else
+            local spriteNum = player.getSpriteNum(animBR)
+            love.graphics.draw(animBR.spriteSheet, animBR.quads[spriteNum],xO,yO)
+            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
         end
         local spriteNum = player.getSpriteNum(animBR)
-        love.graphics.draw(animBR.spriteSheet, animBR.quads[spriteNum],x,y)
-        love.graphics.draw(animBR.spriteSheet, animHR.quads[1],x,y)
-        love.graphics.draw(animBGR.spriteSheet, animHGR.quads[1],x,y)
-        love.graphics.draw(animBDR.spriteSheet, animHDR.quads[1],x,y)
+        love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+        love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+        love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
+    else
+        love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+        love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+        love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
+        love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+        love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+        love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
+
     end
+    --love.graphics.circle("fill",x,y,15)
 end
 
 function player.updateGrab(player)
@@ -159,6 +191,7 @@ function player.resetAnim(anim)
 end
 
 function player.updateAnimation(actualPlayer,dt)
+    --Update animation time if and only if the player is moving towards that direction
     local dir = actualPlayer.direction
     local animHR = actualPlayer.animHR
     local animHDR = actualPlayer.animHDR
@@ -166,14 +199,14 @@ function player.updateAnimation(actualPlayer,dt)
     local animBR = actualPlayer.animBR
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
-    if dir.up then
+    if dir.down then
         if dir.right then
             animHDR.currentTime = animHDR.currentTime + dt
         elseif dir.left then
             animHGR.currentTime = animHGR.currentTime + dt
         end
         animHR.currentTime = animHR.currentTime + dt
-    elseif dir.down then
+    elseif dir.up then
         if dir.right then
             animBDR.currentTime = animBDR.currentTime + dt
         elseif dir.left then
