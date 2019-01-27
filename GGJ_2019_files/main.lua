@@ -206,7 +206,11 @@ function love.update(dt)
         musicTrack:play()
 	    player.updateEmotion(player1, dt)
 	    player.updateEmotion(player2, dt)
-        lucioles:play()
+        print(lucioles:isPlaying())
+        if not (lucioles:isPlaying()) then
+            lucioles:rewind()
+            lucioles:play()
+        end
         for i,entity in pairs(blocks) do
             removed = block.release(entity,ourHome,i)
             if removed then
