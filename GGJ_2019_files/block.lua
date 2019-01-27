@@ -22,17 +22,17 @@ function block.create(collider,variation,color,initX,initY)
 		mainBlock.parity = -1 
 	end
 	if variation == 5 then --losange vertical
-		mainBlock.blockMap = {{1,1},{1,2}}
+		mainBlock.blockMap = {{1,1},{2,1}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+a,initY,initX+a/2,initY+h)
 		mainBlock.parity = 1 
 	end
 	if variation == 6 then --losange horizontal 1 
-		mainBlock.blockMap = {{1,1},{2,1}}
+		mainBlock.blockMap = {{1,1},{1,2}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+a,initY)
 		mainBlock.parity = 1 
 	end
 	if variation == 7 then --losange horizontal 2 
-		mainBlock.blockMap = {{1,1},{2,1}}
+		mainBlock.blockMap = {{1,1},{1,2}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a/2,initY+h)
 		mainBlock.parity = -1 
 	end
@@ -87,9 +87,13 @@ function block.release(block,myHome,i)
                     map = block.blockMap
                     fits = true
                     for bite,tri in pairs(map) do
-                        if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
-                            fits=false
+                        if it+tri[1]-1>0 and it+tri[1]<13 and jt+tri[2]>0 and jt+tri[2]<24 then
+                            if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
+                                fits=false
                             --myHome.grid.m[it][jt] = block.color
+                            end
+                        else
+                            fits=false
                         end
                     end 
                     if fits then
@@ -113,9 +117,12 @@ function block.release(block,myHome,i)
                     map = block.blockMap
                     fits = true
                     for bite,tri in pairs(map) do
-                        if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
+                        if it+tri[1]-1>0 and it+tri[1]<13 and jt+tri[2]>0 and jt+tri[2]<24 then
+                            if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
+                                fits=false
+                            end
+                        else
                             fits=false
-                            --myHome.grid.m[it][jt] = block.color
                         end
                     end 
                     if fits then
