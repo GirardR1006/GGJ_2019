@@ -4,7 +4,7 @@
 --TODO: add sprite sheet 
 --]]
 
-function player.create(collider)--,colours)
+function player.create(collider,number)--,colours)
     local mainPlayer={}
     mainPlayer.radius = 10
     mainPlayer.shape = collider:circle(150,150,mainPlayer.radius)
@@ -29,14 +29,19 @@ function player.create(collider)--,colours)
 	mainPlayer.sadState = false
 	mainPlayer.sadThreshold = math.random(20,30)
     gPath="graphisme/animation/move/"
-    sprShHR=love.graphics.newImage(gPath.."move-rose/haut-rose/result_sprite.png")
-    sprShHDR=love.graphics.newImage(gPath.."move-rose/haut-droite-rose/result_sprite.png")
-    sprShHGR=love.graphics.newImage(gPath.."move-rose/haut-gauche-rose/result_sprite.png")
-    sprShBR=love.graphics.newImage(gPath.."move-rose/bas-rose/result_sprite.png")
-    sprShBGR=love.graphics.newImage(gPath.."move-rose/bas-gauche-rose/result_sprite.png")
-    sprShBDR=love.graphics.newImage(gPath.."move-rose/bas-droite-rose/result_sprite.png")
-	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/rose-content/result_sprite.png")
-	sprShSad=love.graphics.newImage("graphisme/animation/emotions/rose-stress/result_sprite.png")
+    if number == 1 then
+        c = "rose"
+    else
+        c = "vert"
+    end
+    sprShHR=love.graphics.newImage(gPath.."move-"..c.."/haut-"..c.."/result_sprite.png")
+    sprShHDR=love.graphics.newImage(gPath.."move-"..c.."/haut-droite-"..c.."/result_sprite.png")
+    sprShHGR=love.graphics.newImage(gPath.."move-"..c.."/haut-gauche-"..c.."/result_sprite.png")
+    sprShBR=love.graphics.newImage(gPath.."move-"..c.."/bas-"..c.."/result_sprite.png")
+    sprShBGR=love.graphics.newImage(gPath.."move-"..c.."/bas-gauche-"..c.."/result_sprite.png")
+    sprShBDR=love.graphics.newImage(gPath.."move-"..c.."/bas-droite-"..c.."/result_sprite.png")
+	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/"..c.."-content/result_sprite.png")
+	sprShSad=love.graphics.newImage("graphisme/animation/emotions/"..c.."-stress/result_sprite.png")
     mainPlayer.animHR = player.newAnimation(sprShHR,45,45,1)--,colours)
     mainPlayer.animHDR = player.newAnimation(sprShHDR,45,45,1)--,colours)
     mainPlayer.animHGR = player.newAnimation(sprShHGR,45,45,1)--,colours)

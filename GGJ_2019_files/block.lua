@@ -16,6 +16,26 @@ function block.create(collider,variation,color,initX,initY)
         mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX+a/2,initY+h)
         mainBlock.parity = -1
     end
+	if variation == 4 then 
+		mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX-a/2,initY+h)
+		mainBlock.parity = -1 
+	end
+	if variation == 5 then --losange vertical
+		mainBlock.blockMap = {{1,1},{1,2}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+a,initY,initX+a/2,initY+h)
+		mainBlock.parity = 1 
+	end
+	if variation == 6 then --losange horizontal 1 
+		mainBlock.blockMap = {{1,1},{2,1}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+a,initY)
+		mainBlock.parity = 1 
+	end
+	if variation == 7 then --losange horizontal 2 
+		mainBlock.blockMap = {{1,1},{2,1}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a/2,initY+h)
+		mainBlock.parity = -1 
+	end
 
     mainBlock.color = color
     mainBlock.isGrabbed=0
