@@ -184,6 +184,7 @@ function love.update(dt)
     if state.level then
         manageCollision()
         move(dt)
+		
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
         --xtemp,ytemp = player1.shape:center()

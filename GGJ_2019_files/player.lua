@@ -22,6 +22,8 @@ function player.create(collider)--,colours)
 	mainPlayer.releaseSoundOnce = false
 	mainPlayer.sadSoundOnce = false
 	mainPlayer.happySoundOnce = false
+	mainPlayer.timerHappy = 0
+	mainPlayer.happyState = false
     gPath="graphisme/animation/move/"
     sprShHR=love.graphics.newImage(gPath.."move-rose/haut-rose/result_sprite.png")
     sprShHDR=love.graphics.newImage(gPath.."move-rose/haut-droite-rose/result_sprite.png")
@@ -29,12 +31,14 @@ function player.create(collider)--,colours)
     sprShBR=love.graphics.newImage(gPath.."move-rose/bas-rose/result_sprite.png")
     sprShBGR=love.graphics.newImage(gPath.."move-rose/bas-gauche-rose/result_sprite.png")
     sprShBDR=love.graphics.newImage(gPath.."move-rose/bas-droite-rose/result_sprite.png")
+	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/rose-content/result_sprite.jpg")
     mainPlayer.animHR = player.newAnimation(sprShHR,45,45,1)--,colours)
     mainPlayer.animHDR = player.newAnimation(sprShHDR,45,45,1)--,colours)
     mainPlayer.animHGR = player.newAnimation(sprShHGR,45,45,1)--,colours)
     mainPlayer.animBR = player.newAnimation(sprShBR,45,45,1)--,colours)
     mainPlayer.animBGR = player.newAnimation(sprShBGR,45,45,1)--,colours)
     mainPlayer.animBDR = player.newAnimation(sprShBDR,45,45,1)--,colours)
+	mainPlayer.animHappy = player.newAnimation(sprShHappy,45,45,1)--,colours)
     local movement = {}
     movement.up=false
     movement.down=false
@@ -143,6 +147,7 @@ function player.draw(actualPlayer,beginning)
     local animBR = actualPlayer.animBR
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
+	local animHappy = actualPlayer.animHappy
     --Offset: the quads are 45 pixels wide
     local xO = x-45/2
     local yO = y-45/2
@@ -202,9 +207,12 @@ function player.draw(actualPlayer,beginning)
         love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
         love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
         love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
-
     end
     --love.graphics.circle("fill",x,y,15)
+	if mainPlayer.happyState
+		local spriteNum = player.getSpriteNum(animHappy)
+		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], x0, y0)
+	end
 end
 
 function player.updateGrab(actualPlayer)
@@ -237,6 +245,7 @@ function player.updateAnimation(actualPlayer,dt)
     local animBR = actualPlayer.animBR
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
+	local animHappy = actualPlayer.animHappy
     if dir.down then
         if dir.right then
             animHDR.currentTime = animHDR.currentTime + dt
@@ -252,14 +261,31 @@ function player.updateAnimation(actualPlayer,dt)
         end
         animBR.currentTime = animBR.currentTime + dt
     end
+	if actualPlayer.happyState
+		animHappy.currentTime = animHappy.currentTime + dt
+	end
     player.resetAnim(animHR)
     player.resetAnim(animHDR)
     player.resetAnim(animHGR)
     player.resetAnim(animBR)
     player.resetAnim(animBGR)
     player.resetAnim(animBDR)
+	player.resetAnim(animHappy)
 end
 
+
+function player.updateEmotion(actualPlayer, dt)
+	actualPlayer.timerHappy = mainPlayer.timerHappy + dt
+	if actualPlayer.timerHappy > 15
+		happySound:play()
+		actualPlayer.timerHappy = 0
+		actualPlayer.happyState = true
+	end
+	if actualPlayer.timerHappy >= actualPlayer.animHappy.duration
+		actualPlayer.happyState = false
+	end
+end
+	
 
 
 return player
