@@ -261,7 +261,7 @@ function player.updateAnimation(actualPlayer,dt)
         end
         animBR.currentTime = animBR.currentTime + dt
     end
-	if actualPlayer.happyState
+	if actualPlayer.happyState then
 		animHappy.currentTime = animHappy.currentTime + dt
 	end
     player.resetAnim(animHR)
