@@ -32,6 +32,7 @@ state.mainMenu=true
 state.level=false
 state.dialog=false
 state.pause=false
+state.intro=false
 
 --Colours
 local colours = {}
@@ -45,6 +46,7 @@ function love.load()
     --Setting screen dimension
     screenWidth = 1024 --love.graphics.getWidth()
     screenHeight = 768 --love.graphics.getHeight()
+    love.window.setMode(screenWidth,screenHeight)
     --Setting joystick and players
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]
@@ -74,21 +76,25 @@ function love.load()
     block2 = block.create(warudo,6,1,150,100)
     block3 = block.create(warudo,7,2,100,150)
     block4 = block.create(warudo,1,2,200,100)
-    blocks = {block1,block2,block3}
-    -- for i=1,5 do
-        -- table.insert(blocks,block.create(warudo,1,1,200+20*i,100))        
-        -- table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
-    -- end
+    blocks = {block1,block2,block3,block4}
+    for i=1,1 do
+        --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
+        --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
+    end
     --Setting balance
     ourBalance = balance.create()
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
-	musicTrack:setLooping(true)
+    musicTrack:setLooping(true)
     happySound = love.audio.newSource("audio/Bruitages/content3.wav","static")
     sadSound = love.audio.newSource("audio/Bruitages/stress2.wav","static")
     grabSound = love.audio.newSource("audio/Bruitages/grab.wav","static")
     releaseSound = love.audio.newSource("audio/Bruitages/release.wav", "static")
     tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
+    --Setting video
+    intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
+    --State intro
+    state.mainMenu = true
 end
 
 
@@ -105,11 +111,12 @@ function love.draw()
             block.draw(entity)
         end
         balance.draw(ourBalance)
-    elseif state.pause then
-        love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
+    elseif state.intro then
+        love.graphics.draw(intro)
     elseif state.mainMenu then
-        love.graphics.print('Welcome, press button x to begin', screenWidth/2,screenHeight/2,0,1,1)
+        love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
     end
+
 end
 
 -- Function doing all the moving
@@ -130,7 +137,7 @@ function manageCollision()
     for i,entity in pairs(blocks) do
         --collisions block to block
         for j,entity2 in pairs(blocks) do
-            if not i==j then
+            if not (i==j) then
                 local collides,dx,dy = entity.shape:collidesWith(entity2.shape) 
                 entity.shape:move(dx/2,dy/2)
             end
@@ -180,40 +187,33 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
-    function love.keypressed(key)
-        if key=='p' then
-            if state.pause then
-                print("Transitioning from Pause to Level")
-                state.pause=false
-                state.level=true
-            elseif state.level then
-                print("Transitioning from Level to Pause")
-                state.pause=true
-                state.level=false
-            end
-        end
-    end
-    if love.keyboard.isDown('x') and state.mainMenu then
+    player.updateGrab(player1)
+    player.updateGrab(player2)
+    love.draw()
+    if player1.grabbing and player2.grabbing and state.mainMenu then
         print("Transitioning from Main Menu to Level")
         state.mainMenu=false
-        state.level=true
+        state.intro=true
     end
     if state.level then
         manageCollision()
-        move(dt)
-		
+        move(dt)		
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
         --xtemp,ytemp = player1.shape:center()
         --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
         musicTrack:play()
-        player.updateGrab(player1)
-        player.updateGrab(player2)
 	player.updateEmotion(player1, dt)
 	player.updateEmotion(player2, dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end
     end
-    love.draw()
+    if state.intro then
+        intro:play()
+        if not(intro:isPlaying()) then
+            state.intro=false
+            state.level=true
+        end
+    end
 end
