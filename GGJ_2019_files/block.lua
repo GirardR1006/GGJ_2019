@@ -9,7 +9,7 @@ function block.create(collider,variation,color,initX,initY)
     if variation == 1 then
         mainBlock.blockMap={{1,1}}
         mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+h,initX+a,initY)
-        mainBlock.parity = 1
+        mainBlock.parity = -1
     end
 	if variation == 2 then
         mainBlock.blockMap={{1,1}}
