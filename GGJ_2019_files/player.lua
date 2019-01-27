@@ -19,6 +19,9 @@ function player.create(collider)--,colours)
 	mainPlayer.happy = false
 	mainPlayer.sad = false
 	mainPlayer.grabSoundOnce = false
+	mainPlayer.releaseSoundOnce = false
+	mainPlayer.sadSoundOnce = false
+	mainPlayer.happySoundOnce = false
     gPath="graphisme/animation/move/"
     sprShHR=love.graphics.newImage(gPath.."move-rose/haut-rose/result_sprite.png")
     sprShHDR=love.graphics.newImage(gPath.."move-rose/haut-droite-rose/result_sprite.png")
@@ -45,6 +48,24 @@ end
 function player.playGrabSound(once)
 	if not once then
 		grabSound:play()
+	end		
+end
+
+function player.playReleaseSound(once)
+	if not once then
+		releaseSound:play()
+	end		
+end
+
+function player.playSadSound(once)
+	if not once then
+		sadSound:play()
+	end		
+end
+
+function player.playHappySound(once)
+	if not once then
+		happySound:play()
 	end		
 end
 
@@ -192,9 +213,12 @@ function player.updateGrab(actualPlayer)
         actualPlayer.grabbing=true
 		player.playGrabSound(actualPlayer.grabSoundOnce)
 		actualPlayer.grabSoundOnce = true 
+		actualPlayer.releaseSoundOnce = false 
     else
         actualPlayer.grabbing=false
 		actualPlayer.grabSoundOnce = false
+		player.playReleaseSound(actualPlayer.releaseSoundOnce)
+		actualPlayer.releaseSoundOnce = true 
     end
 end
 
