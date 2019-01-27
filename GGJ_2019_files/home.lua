@@ -148,10 +148,10 @@ function home.draw(myHome)
     local x,y = myHome.grid.shape:center()
     local spr = myHome.sprite
     pointList = extractPointsFromPoly(firstPoly)
-    --love.graphics.polygon("line",pointList)
-    --love.graphics.circle("line",x,y, myHome.grid.radius)
-    --love.graphics.circle("fill",x,y, 50)
-    love.graphics.draw(spr,screenWidth/2-spr:getWidth(),screenHeight/2-spr:getHeight())
+    love.graphics.polygon("line",pointList)
+    love.graphics.circle("line",x,y, myHome.grid.radius)
+    love.graphics.circle("fill",x,y, 50)
+    love.graphics.draw(spr,x-spr:getWidth()/2,y-spr:getHeight()/2)
     for i=1,12 do
         for j=1,23 do
             if myHome.grid.m[i][j]==1 then

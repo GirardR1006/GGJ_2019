@@ -87,7 +87,7 @@ function love.draw()
     if state.level then
         love.graphics.setBackgroundColor(255,255,255)
         love.graphics.draw(background)
-	    player.draw(player1)
+	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
         for i,entity in pairs(blocks) do
@@ -196,8 +196,8 @@ function love.update(dt)
         musicTrack:play()
         player.updateGrab(player1)
         player.updateGrab(player2)
-		player.updateEmotion(player1, dt)
-		player.updateEmotion(player2, dt)
+	player.updateEmotion(player1, dt)
+	player.updateEmotion(player2, dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end

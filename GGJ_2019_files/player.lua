@@ -159,9 +159,8 @@ function player.draw(actualPlayer,beginning)
 	if actualPlayer.happyState then
 		local spriteNum = player.getSpriteNum(animHappy)
 		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], xO, yO)
-    else
+	else
         if dir.down then
-            --print("Dir down")
             if dir.right then
                 local spriteNumHDR = player.getSpriteNum(animHDR)
                 love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNumHDR],xO,yO)
