@@ -70,15 +70,15 @@ function love.load()
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
     --Setting blocks
-    block1 = block.create(warudo,3,2,100,100)
-    block2 = block.create(warudo,3,1,150,100)
-    block3 = block.create(warudo,3,2,100,150)
+    block1 = block.create(warudo,5,2,100,100)
+    block2 = block.create(warudo,6,1,150,100)
+    block3 = block.create(warudo,7,2,100,150)
     block4 = block.create(warudo,1,2,200,100)
-    blocks = {block1,block2,block3,block4}
-    for i=1,5 do
-        table.insert(blocks,block.create(warudo,1,1,200+20*i,100))        
-        table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
-    end
+    blocks = {block1,block2,block3}
+    -- for i=1,5 do
+        -- table.insert(blocks,block.create(warudo,1,1,200+20*i,100))        
+        -- table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
+    -- end
     --Setting balance
     ourBalance = balance.create()
     --Setting audio	
