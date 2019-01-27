@@ -1,3 +1,6 @@
-dist/game.exe
-dist/game.love
+dist/*.exe
+dist/*.love
 *.zip
+GGJ_2019_files/*.love
+GGJ_2019_files/*.exe
+*.swp

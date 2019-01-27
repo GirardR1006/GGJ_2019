@@ -16,6 +16,9 @@ local HC = require "HC" --Need HadronCollider module to be installed
 Polygon = require "HC.polygon"
 local block = love.filesystem.load("block.lua")
 local block = block()
+local balance = love.filesystem.load("balance.lua")
+local balance = balance()
+
 --[[
 #####################
 Functions definitions
@@ -55,7 +58,11 @@ function love.load()
     player2 = player.create(warudo)
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
-    player2.grabIndex = 6 
+    player2.grabIndex = 6
+    color1 = {223/255,65/255,195/255,1}
+    color2 = {65/255,223/255,140/255,1}
+    colorHome1 = {223/255,65/255,195/255,0.5}
+    colorHome2 = {65/255,223/255,140/255,0.5}
     --Loading background
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
@@ -63,10 +70,18 @@ function love.load()
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
     --Setting blocks
-    block1 = block.create(warudo)
+    block1 = block.create(warudo,3,2,100,100)
     blocks = {block1}
+    --Setting balance
+    ourBalance = balance.create()
     --Setting audio	
-    --music = love.audio.newSource("audio/music.mp3")
+    musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
+	musicTrack:setLooping(true)
+    happySound = love.audio.newSource("audio/Bruitages/content3.wav","static")
+    sadSound = love.audio.newSource("audio/Bruitages/stress2.wav","static")
+    grabSound = love.audio.newSource("audio/Bruitages/grab.wav","static")
+    releaseSound = love.audio.newSource("audio/Bruitages/release.wav", "static")
+    tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
 end
 
 
@@ -75,12 +90,14 @@ end
 function love.draw()
     if state.level then
         love.graphics.setBackgroundColor(255,255,255)
-        love.graphics.setColor(0,0,0)
+        love.graphics.draw(background)
 	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
-        block.draw(block1)
-        love.graphics.draw(background)
+        for i,entity in pairs(blocks) do
+            block.draw(entity)
+        end
+        balance.draw(ourBalance)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then
@@ -154,10 +171,6 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
-    function love.gamepadpressed(joystick,button)
-        pressed=joystick:getAxis(3)
-        print(pressed)
-    end
     function love.keypressed(key)
         if key=='p' then
             if state.pause then
@@ -177,15 +190,20 @@ function love.update(dt)
         state.level=true
     end
     if state.level then
-        player.updateGrab(player1)
-        player.updateGrab(player2)
         manageCollision()
         move(dt)
+		
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
-        --music:play()
+        --xtemp,ytemp = player1.shape:center()
+        --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
+        musicTrack:play()
+        player.updateGrab(player1)
+        player.updateGrab(player2)
+	player.updateEmotion(player1, dt)
+	player.updateEmotion(player2, dt)
         for i,entity in pairs(blocks) do
-            block.release(entity)
+            block.release(entity,ourHome,i)
         end
     end
     love.draw()
