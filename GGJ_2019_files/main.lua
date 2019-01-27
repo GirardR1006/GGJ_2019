@@ -65,6 +65,7 @@ function love.load()
     --Loading background, static images
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
+    gridSprite = love.graphics.newImage("graphisme/fonds-home/grille-rose.png")
     mainMenuScreen =  love.graphics.newImage("graphisme/animation/mainMenuScreen.png")
     --Setting grid
     triangleWidth = 30

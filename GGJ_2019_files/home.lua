@@ -105,6 +105,7 @@ end
 function home.create(collider,trWidth)
     ourHome = {}
     ourHome.sprite = homeSprite
+    ourHome.gridSprite = gridSprite
     ourHome.grid = gridCreate(collider, trWidth)
     ourHome.parityMat = parityCreate()
     return ourHome
@@ -147,11 +148,13 @@ function home.draw(myHome)
     local firstPoly = myHome.grid.midLeft
     local x,y = grid.xCenter,grid.yCenter
     local spr = myHome.sprite
+    local gSpr = myHome.gridSprite
     pointList = extractPointsFromPoly(firstPoly)
     --love.graphics.polygon("line",pointList)
     --love.graphics.circle("line",x,y, myHome.grid.radius)
     --love.graphics.circle("fill",x,y, 50)
     love.graphics.draw(spr,x-spr:getWidth()/2,y-spr:getHeight()/2)
+    love.graphics.draw(gSpr,x-spr:getWidth()/2,y-spr:getHeight()/2)
     for i=1,12 do
         for j=1,23 do
             if myHome.grid.m[i][j]==1 then
