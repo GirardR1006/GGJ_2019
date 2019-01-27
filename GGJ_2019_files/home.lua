@@ -39,11 +39,11 @@ function gridCreate(collider, trWidth)
     yC=yA+trWidth*M.sqrt(3)/2
     grid.midLeft = Polygon(xA,yA,xB,yB,xC,yC) 
     --Approximate center of grid
-    xCenter = xA+grid.radius
-    yCenter = yA
+    grid.xCenter = xA+grid.radius
+    grid.yCenter = yA
     grid.xOO = xA
     grid.yOO = yA-grid.radius*math.sqrt(3)/2
-    grid.shape = collider:circle(xCenter,yCenter,grid.radius)
+    --grid.shape = collider:circle(xCenter,yCenter,grid.radius)
     return grid
 end
 
@@ -145,7 +145,7 @@ end
 
 function home.draw(myHome)
     local firstPoly = myHome.grid.midLeft
-    local x,y = myHome.grid.shape:center()
+    local x,y = grid.xCenter,grid.yCenter
     local spr = myHome.sprite
     pointList = extractPointsFromPoly(firstPoly)
     --love.graphics.polygon("line",pointList)
