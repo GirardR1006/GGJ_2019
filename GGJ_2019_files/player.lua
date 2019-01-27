@@ -16,6 +16,9 @@ function player.create(collider)--,colours)
     mainPlayer.grabbing=false
     mainPlayer.x_old=0
     mainPlayer.y_old=0
+	mainPlayer.happy = false
+	mainPlayer.sad = false
+	mainPlayer.grabSoundOnce = false
     gPath="graphisme/animation/move/"
     sprShHR=love.graphics.newImage(gPath.."move-rose/haut-rose/result_sprite.png")
     sprShHDR=love.graphics.newImage(gPath.."move-rose/haut-droite-rose/result_sprite.png")
@@ -37,6 +40,14 @@ function player.create(collider)--,colours)
     mainPlayer.direction = movement
     return mainPlayer
 end
+
+--Section bruitages
+function player.playGrabSound(once)
+	if not once then
+		grabSound.play()
+	end		
+end
+
 
 function player.newAnimation(image, width, height, duration)
     local animation = {}
@@ -179,8 +190,11 @@ function player.updateGrab(player)
     local gAxis = joystick:getAxis(player.grabIndex)
     if gAxis>-0.5 then
         player.grabbing=true
+		player.playGrabSound(player.grabSoundOnce)
+		player.grabSoundOnce = true 
     else
         player.grabbing=false
+		player.grabSoundOnce = false
     end
 end
 
@@ -221,6 +235,7 @@ function player.updateAnimation(actualPlayer,dt)
     player.resetAnim(animBGR)
     player.resetAnim(animBDR)
 end
+
 
 
 return player
