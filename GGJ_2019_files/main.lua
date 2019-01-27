@@ -188,7 +188,7 @@ function love.update(dt)
         player.updateAnimation(player2,dt)
         --xtemp,ytemp = player1.shape:center()
         --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
-        music:play()
+        musicTrack:play()
         player.updateGrab(player1)
         player.updateGrab(player2)
         for i,entity in pairs(blocks) do
