@@ -20,8 +20,8 @@ function block.create(collider,variation,color,initX,initY)
     mainBlock.color = color
     mainBlock.isGrabbed=0
     local xC,yC = mainBlock.shape:center()
-    mainBlock.centerToX = 100 + a/2 - xC
-    mainBlock.centerToY = 100 - mainBlock.parity*h/2 - yC
+    mainBlock.centerToX = initX + a/2 - xC
+    mainBlock.centerToY = initY - mainBlock.parity*h/2 - yC
     return mainBlock
 end
 
