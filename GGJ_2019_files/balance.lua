@@ -25,8 +25,8 @@ function balance.newAnimation(image, width, height, duration)
     return animation
 end
 
-function balance.addHarmony(ourBalance,weight)
-    ourBalance.harmony = ourBalance.harmony + weight
+function balance.changeHarmony(ourBalance,weight)
+    ourBalance.harmony = weight
     return ourBalance
 end
 
@@ -44,8 +44,12 @@ function balance.computeEquilibrium(ourBalance,grid)
             end
         end
     end
+    print("accLeft")
+    print(accLeft)
+    print("accRight")
+    print(accRight)
     local finalPerturbation  = accLeft - accRight
-    balance.addHarmony(ourBalance,finalPerturbation)
+    balance.changeHarmony(ourBalance,finalPerturbation)
 end
 
 --Draw the correct balance frame according to harmony of Home

@@ -150,8 +150,7 @@ function block.release(block,myHome,i)
                         toRemove=true
                         for bite,tri in pairs(map) do
                             myHome.grid.m[it+tri[1]-1][jt+tri[2]-1] = block.color                            
-                        end
-                        
+                        end 
                     end
                 end
             end
@@ -161,6 +160,7 @@ function block.release(block,myHome,i)
         table.remove(blocks,i)
 		tchakSound:play()
     end
+    return toRemove
 end
     --block.blockMap[1][0]
 

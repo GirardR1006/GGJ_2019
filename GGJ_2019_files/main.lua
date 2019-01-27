@@ -73,11 +73,11 @@ function love.load()
     --Setting balance
     ourBalance = balance.create()
     --Setting blocks
-    block1 = block.create(warudo,5,2,100,100)
-    block2 = block.create(warudo,6,1,150,100)
+    block1 = block.create(warudo,3,2,100,100)
+    block2 = block.create(warudo,3,1,150,100)
     block3 = block.create(warudo,7,2,100,150)
     block4 = block.create(warudo,1,2,200,200)
-    blocks = {block1}
+    blocks = {block1,block2}
     for i=1,1 do
         --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
         --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
@@ -189,7 +189,6 @@ Game actually runs here
 function love.update(dt)
     player.updateGrab(player1)
     player.updateGrab(player2)
-    love.draw()
     if player1.grabbing and player2.grabbing and state.mainMenu then
         print("Transitioning from Main Menu to Level")
         state.mainMenu=false
@@ -206,12 +205,14 @@ function love.update(dt)
 	player.updateEmotion(player1, dt)
 	player.updateEmotion(player2, dt)
         for i,entity in pairs(blocks) do
-            block.release(entity,ourHome,i)
+            removed = block.release(entity,ourHome,i)
+            if removed then
+                --Update balance score regarding to the grid
+                local grid = ourHome.grid.m
+                balance.computeEquilibrium(ourBalance,grid)
+            end
         end
-        --Update balance score regarding to the grid
-        local grid = ourHome.grid.m
-        balance.computeEquilibrium(ourBalance,grid)
-        
+    love.draw()    
     end
     if state.intro then
         intro:play()
