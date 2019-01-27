@@ -113,6 +113,7 @@ function block.release(block,myHome,i)
     toRemove = false
     if block.isGrabbed == 1 then
         if not player1.grabbing then
+            player1.holding=false
             block.isGrabbed = 0
             local xC,yC = block.shape:center()
             it,jt = home.whereOnGrid(myHome, xC+block.centerToX, yC+block.centerToY)
@@ -143,6 +144,7 @@ function block.release(block,myHome,i)
     end
     if block.isGrabbed == 2 then
         if not player2.grabbing then
+            player2.holding=false
             block.isGrabbed = 0
             local xC,yC = block.shape:center()
             it,jt = home.whereOnGrid(myHome, xC+block.centerToX, yC+block.centerToY)
