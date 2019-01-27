@@ -73,14 +73,15 @@ function love.load()
     --Setting balance
     ourBalance = balance.create()
     --Setting blocks
-    block1 = block.create(warudo,3,2,100,100)
-    block2 = block.create(warudo,3,1,150,100)
-    block3 = block.create(warudo,7,2,100,150)
-    block4 = block.create(warudo,1,2,200,200)
-    blocks = {block1,block2}
-    for i=1,1 do
-    --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
-    --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
+    --block1 = block.create(warudo,7,2,100,100)
+    --block2 = block.create(warudo,4,1,300,100)
+    --block3 = block.create(warudo,1,2,100,300)
+    --block4 = block.create(warudo,1,2,200,200)
+    --blocks = {block1,block2,block3}
+    blocks = {}
+    for i=1,4 do
+        table.insert(blocks,block.create(warudo,2+i,2,100*i,400))        
+        --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
     end
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
@@ -140,8 +141,12 @@ function manageCollision()
         --collisions block to block
         for j,entity2 in pairs(blocks) do
             if not (i==j) then
-                local collides,dx,dy = entity.shape:collidesWith(entity2.shape) 
-                entity.shape:move(dx/2,dy/2)
+                test = entity.shape
+                test2 = entity2.shape
+                local collides,dx,dy = entity.shape:collidesWith(entity2.shape)         
+                if collides then 
+                    entity.shape:move(dx/2,dy/2)
+                end
             end
         end
 
