@@ -90,7 +90,7 @@ function block.draw(block)
 end
 
 
-function block.move(block)
+function block.move(block,i,dt)
     if block.isGrabbed==1 then
         local x,y = player1.shape:center()
         block.shape:move(x-player1.x_old,y-player1.y_old)
@@ -98,6 +98,14 @@ function block.move(block)
     if block.isGrabbed==2 then
         local x,y = player2.shape:center()
         block.shape:move(x-player2.x_old,y-player2.y_old)
+    end
+    if block.isGrabbed==0 then
+        block.shape:move(0,blockRainSpeed*dt)
+        local x,y = block.shape:center()
+        if y > screenHeight+150 then
+            table.remove(blocks,i)
+        end
+        
     end
 end
 

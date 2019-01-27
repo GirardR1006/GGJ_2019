@@ -6,9 +6,9 @@
 
 function player.create(collider,number)--,colours)
     local mainPlayer={}
-    mainPlayer.radius = 10
+    mainPlayer.radius = 15
     mainPlayer.shape = collider:circle(150,150,mainPlayer.radius)
-    mainPlayer.grabShape = collider:circle(150,150,mainPlayer.radius*2)
+    mainPlayer.grabShape = collider:circle(150,150,mainPlayer.radius*1.2)
     mainPlayer.xAxisIndex = 0
     mainPlayer.yAxisIndex = 0
     mainPlayer.grabIndex = 0

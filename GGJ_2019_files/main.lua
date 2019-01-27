@@ -79,10 +79,21 @@ function love.load()
     --block4 = block.create(warudo,1,2,200,200)
     --blocks = {block1,block2,block3}
     blocks = {}
-    for i=1,4 do
-        table.insert(blocks,block.create(warudo,2+i,2,100*i,400))        
+    --for i=1,4 do
+        --table.insert(blocks,block.create(warudo,2+i,2,100*i,400))        
         --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
-    end
+    --end
+    
+    blockRainSpeed = 100
+    blockSpawnX1 = (screenWidth-30*12)/4
+    blockSpawnY1 = -150
+    blockSpawnX2 = screenWidth-blockSpawnX1
+    blockSpawnY2 = -150
+    blockTimer = 0.5
+    blockTimerMax = 1
+    
+
+
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
     musicTrack:setLooping(true)
@@ -129,7 +140,7 @@ function move(dt)
     player.move(player1, dt, joystick)
     player.move(player2, dt, joystick)
     for bite,entity in pairs(blocks) do
-        block.move(entity)
+        block.move(entity,bite,dt)
     end
 end
 
@@ -183,6 +194,20 @@ function manageCollision()
     end
 end
 
+function spawnBlocks(dt)
+    blockTimer = blockTimer + dt
+    if blockTimer > blockTimerMax then
+        rdColor1 = math.random(1,2)
+        rdShape1 = math.random(1,11)
+        rdColor2 = math.random(1,2)
+        rdShape2 = math.random(1,11)
+        rdX1 = math.random(-80,80)
+        rdX2 = math.random(-80,80)
+        table.insert(blocks,block.create(warudo,rdShape1,rdColor1,blockSpawnX1+rdX1,blockSpawnY1))        
+        table.insert(blocks,block.create(warudo,rdShape2,rdColor2,blockSpawnX2+rdX2,blockSpawnY2))        
+        blockTimer = 0
+    end
+end
 
 --[[
 #######################
@@ -194,6 +219,7 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
+    spawnBlocks(dt)
     player.updateGrab(player1)
     player.updateGrab(player2)
     if player1.grabbing and player2.grabbing and state.mainMenu then
