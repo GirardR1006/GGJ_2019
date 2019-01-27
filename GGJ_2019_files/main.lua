@@ -173,14 +173,16 @@ function manageCollision()
         --collisions to grabboxes
         local collides,dx,dy = entity.shape:collidesWith(player1.grabShape)
         if collides then
-            if player1.grabbing then
+            if player1.grabbing and not player1.holding then
                 entity.isGrabbed = 1
+                player1.holding = true
             end
         end
         local collides,dx,dy = entity.shape:collidesWith(player2.grabShape)
         if collides then
-            if player2.grabbing then
+            if player2.grabbing and not player2.holding then
                 entity.isGrabbed = 2
+                player2.holding = true
             end
         end
         

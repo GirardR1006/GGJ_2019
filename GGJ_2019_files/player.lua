@@ -14,6 +14,7 @@ function player.create(collider,number)--,colours)
     mainPlayer.grabIndex = 0
     mainPlayer.speed=200
     mainPlayer.grabbing=false
+    mainPlayer.holding=false
     mainPlayer.x_old=0
     mainPlayer.y_old=0
 	mainPlayer.happy = false
