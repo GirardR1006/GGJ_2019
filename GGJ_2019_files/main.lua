@@ -66,7 +66,12 @@ function love.load()
     block1 = block.create(warudo)
     blocks = {block1}
     --Setting audio	
-    --music = love.audio.newSource("audio/music.mp3")
+    musicTrack = love.audio.newSource("audio/musique/ost1.wav")
+    happySound = love.audio.newSource("audio/Bruitages/content2.wav")
+    sadSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    grabSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    releaseSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    tchakSound = love.audio.newSource("audio/Bruitages/stress2.wav")
 end
 
 
