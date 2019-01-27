@@ -16,6 +16,7 @@ local HC = require "HC" --Need HadronCollider module to be installed
 Polygon = require "HC.polygon"
 local block = love.filesystem.load("block.lua")
 local block = block()
+
 --[[
 #####################
 Functions definitions
@@ -154,10 +155,6 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
-    function love.gamepadpressed(joystick,button)
-        pressed=joystick:getAxis(3)
-        print(pressed)
-    end
     function love.keypressed(key)
         if key=='p' then
             if state.pause then
@@ -183,6 +180,8 @@ function love.update(dt)
         move(dt)
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
+        xtemp,ytemp = player1.shape:center()
+        print(Home.whereOnGrid(ourHome,xtemp,ytemp))
         --music:play()
         for i,entity in pairs(blocks) do
             block.release(entity)

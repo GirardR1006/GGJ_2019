@@ -8,15 +8,28 @@ home = {}
 function gridCreate(collider, trWidth)
     grid = {}
     m = {}
-    for i=1,12 do
+    for i=1,6 do
         m[i] = {}
-        for j=1,23 do
+        for j=1,(6-i) do
+            m[i][j] = -1
+        end
+        for j=(7-i),(23-(6-i)) do
             m[i][j] = 0
         end
+        for j=(24-(6-i)),23 do
+            m[i][j] = -1
+        end
     end
+    for i=7,12 do
+        m[i]={}
+        for j=1,23 do
+            m[i][j] = m[13-i][j]
+        end
+    end
+  
     grid.m = m
     grid.trWidth = trWidth -- length of the triangle 
-    grid.radius = trWidth*23/2 -- approximate width of grid
+    grid.radius = trWidth*12/2 -- approximate width of grid
     --Real position of the mid left triangle in the plane
     xA=screenWidth/2 - grid.radius 
     yA=screenHeight/2
@@ -28,8 +41,25 @@ function gridCreate(collider, trWidth)
     --Approximate center of grid
     xCenter = xA+grid.radius
     yCenter = yA
+    grid.xOO = xA
+    grid.yOO = yA-grid.radius*math.sqrt(3)/2
     grid.shape = collider:circle(xCenter,yCenter,grid.radius)
     return grid
+end
+
+function parityCreate()
+    m={}
+    for i=1,12 do
+        m[i]={}
+        for j=1,23 do
+            if i%2==j%2 then
+                m[i][j] = -1
+            else
+                m[i][j] = 1
+            end
+        end
+    end
+    return m
 end
 
 
@@ -38,7 +68,7 @@ end
 function home.getNearestCenter(x,y,grid)
     local firstPoly = grid.midLeft
     local a = grid.trWidth
-    xC = firstPoly[0] + a*sqrt(3)/6
+    xC = firstPoly[0] + a*sqrt(3)/6 --a/2 ?
     yC = firstPoly[1] + a*sqrt(3)/6
     local xO=x-xC -- new vector in grid local reference frame 
     local yO=y-yC
@@ -52,10 +82,39 @@ function home.getNearestCenter(x,y,grid)
     return delta,xGrid,yGrid 
 end
 
+function home.whereOnGrid(myHome,x,y)
+    local a = myHome.grid.trWidth
+    local h = a*M.sqrt(3)/2
+    
+    i = 1 + M.floor((y-myHome.grid.yOO)/h)
+
+    if i>0 and i<13 then 
+        --print('check')
+        for j=1,23 do
+            xA,yA,xB,yB,xC,yC = home.getPointFromInd(myHome,i,j)
+            triangle = Polygon(xA,yA,xB,yB,xC,yC)
+            --print(xA,yA)
+            if triangle:contains(x,y) then
+                return i,j
+            --else 
+              --  if triangle:contains(x+5,y+5) then
+                --    return i,j
+               -- end
+            else
+                --return 0,0
+            end
+        end
+    else
+        --return 0,0
+    end
+    
+end
+
 function home.create(collider,trWidth)
     ourHome = {}
     ourHome.sprite = homeSprite
     ourHome.grid = gridCreate(collider, trWidth)
+    ourHome.parityMat = parityCreate()
     return ourHome
 end
 
@@ -68,6 +127,28 @@ function extractPointsFromPoly(poly)
         table.insert(list,y)
     end
     return list
+end
+
+function home.getPointFromInd(home,i,j)
+    local a = home.grid.trWidth
+    local h = a*M.sqrt(3)/2
+    if home.parityMat[i][j]==1 then  --up
+        xA = home.grid.xOO + (j-1)*a/2
+        yA = home.grid.yOO + i*h
+        xB = xA + a
+        yB = yA
+        xC = (xA+xB)/2
+        yC = yA - h
+    end
+    if home.parityMat[i][j]==-1 then
+        xA = home.grid.xOO + (j-1)*a/2
+        yA = home.grid.yOO + (i-1)*h
+        xB = xA + a
+        yB = yA
+        xC = (xA+xB)/2
+        yC = yA + h
+    end
+    return xA,yA,xB,yB,xC,yC
 end
 
 function home.draw(home)

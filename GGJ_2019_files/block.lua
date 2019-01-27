@@ -6,7 +6,7 @@ function block.create(collider)
     mainBlock.blockMap = {{1,1}}--{{0,0},{0,1},{1,0}}
     --mainBlock.perimeter = polygon(100,100, 120,115, 80,115)
     --mainBlock.shape = shapes.newPolygonShape(mainBlock.perimeter)
-    mainBlock.shape = collider:polygon(100,100,120,115,80,115)--collider:circle(150,150,5)
+    mainBlock.shape = collider:polygon(100,100,130,100,115,100+math.sqrt(3*900/4))--collider:circle(150,150,5)
     mainBlock.isGrabbed=0
     return mainBlock
 end

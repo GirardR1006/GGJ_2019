@@ -120,7 +120,7 @@ function player.draw(actualPlayer,beginning)
     --And it's terrible on screen
     --Please forgive me
     if dir.down then
-        print("Dir down")
+        --print("Dir down")
         if dir.right then
             local spriteNumHDR = player.getSpriteNum(animHDR)
             love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNumHDR],xO,yO)
@@ -142,7 +142,7 @@ function player.draw(actualPlayer,beginning)
         love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
 
     elseif dir.up then
-        print("Dir up")
+        --print("Dir up")
         if dir.right then
             local spriteNum = player.getSpriteNum(animBDR)
             love.graphics.draw(animBDR.spriteSheet, animBDR.quads[spriteNum],xO,yO)
