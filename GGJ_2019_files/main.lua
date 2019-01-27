@@ -221,7 +221,6 @@ Game actually runs here
 ------- UPDATE called each dt ------
 ------------------------------------
 function love.update(dt)
-    spawnBlocks(dt)
     player.updateGrab(player1)
     player.updateGrab(player2)
     if player1.grabbing and player2.grabbing and state.mainMenu then
@@ -230,6 +229,7 @@ function love.update(dt)
         state.level=true
     end
     if state.level then
+        spawnBlocks(dt)
         manageCollision()
         move(dt)		
         player.updateAnimation(player1,dt)
