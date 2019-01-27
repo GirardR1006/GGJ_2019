@@ -6,15 +6,20 @@ function block.create(collider,variation,color,initX,initY)
     local a=30
     local h=a*math.sqrt(3)/2
     
+    if variation == 1 then
+        mainBlock.blockMap={{1,1}}
+        mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+h,initX+a,initY)
+        mainBlock.parity = 1
+    end
     if variation == 3 then
         mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
         mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX+a/2,initY+h)
+        mainBlock.parity = -1
     end
 
     mainBlock.color = color
     mainBlock.isGrabbed=0
     local xC,yC = mainBlock.shape:center()
-    mainBlock.parity = -1
     mainBlock.centerToX = 100 + a/2 - xC
     mainBlock.centerToY = 100 - mainBlock.parity*h/2 - yC
     return mainBlock
@@ -61,14 +66,12 @@ function block.release(block,myHome,i)
                 if block.parity == myHome.parityMat[it][jt] then
                     map = block.blockMap
                     fits = true
-                    print(it)
                     for bite,tri in pairs(map) do
                         if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
                             fits=false
                             --myHome.grid.m[it][jt] = block.color
                         end
                     end 
-                    print(fits)
                     if fits then
                         toRemove=true
                         for bite,tri in pairs(map) do
@@ -83,10 +86,25 @@ function block.release(block,myHome,i)
     if block.isGrabbed == 2 then
         if not player2.grabbing then
             block.isGrabbed = 0
-            it,jt = home.whereOnGrid(myHome, block.shape:center())
+            local xC,yC = block.shape:center()
+            it,jt = home.whereOnGrid(myHome, xC+block.centerToX, yC+block.centerToY)
             if it>0 then
-                if myHome.grid.m[it][jt]==0 then
-                    toRemove=true
+                if block.parity == myHome.parityMat[it][jt] then
+                    map = block.blockMap
+                    fits = true
+                    for bite,tri in pairs(map) do
+                        if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
+                            fits=false
+                            --myHome.grid.m[it][jt] = block.color
+                        end
+                    end 
+                    if fits then
+                        toRemove=true
+                        for bite,tri in pairs(map) do
+                            myHome.grid.m[it+tri[1]-1][jt+tri[2]-1] = block.color                            
+                        end
+                        
+                    end
                 end
             end
         end
