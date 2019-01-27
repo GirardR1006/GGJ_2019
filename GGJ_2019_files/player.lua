@@ -24,6 +24,10 @@ function player.create(collider)--,colours)
 	mainPlayer.happySoundOnce = false
 	mainPlayer.timerHappy = 0
 	mainPlayer.happyState = false
+	mainPlayer.happyThreshold = math.random(20,30)
+	mainPlayer.timerSad = 15
+	mainPlayer.sadState = false
+	mainPlayer.sadThreshold = math.random(20,30)
     gPath="graphisme/animation/move/"
     sprShHR=love.graphics.newImage(gPath.."move-rose/haut-rose/result_sprite.png")
     sprShHDR=love.graphics.newImage(gPath.."move-rose/haut-droite-rose/result_sprite.png")
@@ -32,6 +36,7 @@ function player.create(collider)--,colours)
     sprShBGR=love.graphics.newImage(gPath.."move-rose/bas-gauche-rose/result_sprite.png")
     sprShBDR=love.graphics.newImage(gPath.."move-rose/bas-droite-rose/result_sprite.png")
 	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/rose-content/result_sprite.png")
+	sprShSad=love.graphics.newImage("graphisme/animation/emotions/rose-stress/result_sprite.png")
     mainPlayer.animHR = player.newAnimation(sprShHR,45,45,1)--,colours)
     mainPlayer.animHDR = player.newAnimation(sprShHDR,45,45,1)--,colours)
     mainPlayer.animHGR = player.newAnimation(sprShHGR,45,45,1)--,colours)
@@ -39,6 +44,7 @@ function player.create(collider)--,colours)
     mainPlayer.animBGR = player.newAnimation(sprShBGR,45,45,1)--,colours)
     mainPlayer.animBDR = player.newAnimation(sprShBDR,45,45,1)--,colours)
 	mainPlayer.animHappy = player.newAnimation(sprShHappy,45,45,1)--,colours)
+	mainPlayer.animSad= player.newAnimation(sprShSad,45,45,1)--,colours)
     local movement = {}
     movement.up=false
     movement.down=false
@@ -58,18 +64,6 @@ end
 function player.playReleaseSound(once)
 	if not once then
 		releaseSound:play()
-	end		
-end
-
-function player.playSadSound(once)
-	if not once then
-		sadSound:play()
-	end		
-end
-
-function player.playHappySound(once)
-	if not once then
-		happySound:play()
 	end		
 end
 
@@ -148,6 +142,7 @@ function player.draw(actualPlayer,beginning)
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
 	local animHappy = actualPlayer.animHappy
+	local animSad = actualPlayer.animSad
     --Offset: the quads are 45 pixels wide
     local xO = x-45/2
     local yO = y-45/2
@@ -159,6 +154,9 @@ function player.draw(actualPlayer,beginning)
 	if actualPlayer.happyState then
 		local spriteNum = player.getSpriteNum(animHappy)
 		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], xO, yO)
+	elseif actualPlayer.sadState then
+		local spriteNum = player.getSpriteNum(animSad)
+		love.graphics.draw(animSad.spriteSheet, animSad.quads[spriteNum], xO, yO)
 	else
         if dir.down then
             if dir.right then
@@ -245,6 +243,7 @@ function player.updateAnimation(actualPlayer,dt)
     local animBDR = actualPlayer.animBDR
     local animBGR = actualPlayer.animBGR
 	local animHappy = actualPlayer.animHappy
+	local animSad = actualPlayer.animSad
     if dir.down then
         if dir.right then
             animHDR.currentTime = animHDR.currentTime + dt
@@ -263,6 +262,9 @@ function player.updateAnimation(actualPlayer,dt)
 	if actualPlayer.happyState then
 		animHappy.currentTime = animHappy.currentTime + dt
 	end
+	if actualPlayer.sadState then
+		animSad.currentTime = animSad.currentTime + dt
+	end
     player.resetAnim(animHR)
     player.resetAnim(animHDR)
     player.resetAnim(animHGR)
@@ -270,18 +272,30 @@ function player.updateAnimation(actualPlayer,dt)
     player.resetAnim(animBGR)
     player.resetAnim(animBDR)
 	player.resetAnim(animHappy)
+	player.resetAnim(animSad)
 end
 
 
 function player.updateEmotion(actualPlayer, dt)
 	actualPlayer.timerHappy = actualPlayer.timerHappy + dt
-	if actualPlayer.timerHappy > 3 then
+	actualPlayer.timerSad = actualPlayer.timerSad + dt
+	if actualPlayer.timerHappy > actualPlayer.happyThreshold then
 		happySound:play()
 		actualPlayer.timerHappy = 0
 		actualPlayer.happyState = true
+		actualPlayer.happyThreshold = math.random(20,30)
 	end
 	if actualPlayer.timerHappy >= actualPlayer.animHappy.duration then
 		actualPlayer.happyState = false
+	end
+	if actualPlayer.timerSad > actualPlayer.sadThreshold then
+		sadSound:play()
+		actualPlayer.timerSad = 0
+		actualPlayer.sadState = true
+		actualPlayer.sadThreshold = math.random(20,30)
+	end
+	if actualPlayer.timerSad >= actualPlayer.animSad.duration then
+		actualPlayer.sadState = false
 	end
 end
 	
