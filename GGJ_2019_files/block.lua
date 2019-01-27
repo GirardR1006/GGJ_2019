@@ -47,14 +47,14 @@ function block.create(collider,variation,color,initX,initY)
 		mainBlock.parity = 1 
 	end
 	if variation == 9 then 
-		mainBlock.blockMap = {{1,2},{1,3},{1,4},{2,2},{2,1}}
+		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,1},{2,0}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+a, initY, initX+a/2, initY+h, initX-a/2, initY+h)
-		mainBlock.parity = -1 
+		mainBlock.parity = 1 
 	end
 	if variation == 10 then 
-		mainBlock.blockMap = {{2,1},{2,2},{1,2},{3,1},{3,2}}
+		mainBlock.blockMap = {{1,1},{1,2},{0,2},{2,1},{2,2}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+a,initY-2*h,initX+3*a/2,initY-h, initX+a, initY, initX+3*a/2, initY+h, initX+a/2, initY+h)
-		mainBlock.parity = -1 
+		mainBlock.parity = 1 
 	end
 	if variation == 11 then 
 		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,3},{2,4}}

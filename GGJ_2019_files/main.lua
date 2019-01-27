@@ -73,11 +73,11 @@ function love.load()
     --Setting balance
     ourBalance = balance.create()
     --Setting blocks
-    block1 = block.create(warudo,5,2,100,100)
-    block2 = block.create(warudo,6,1,150,100)
-    block3 = block.create(warudo,7,2,100,150)
-    block4 = block.create(warudo,1,2,200,200)
-    blocks = {block1}
+    block1 = block.create(warudo,9,2,100,100)
+    block2 = block.create(warudo,10,1,150,100)
+    block3 = block.create(warudo,11,2,100,150)
+    block4 = block.create(warudo,8,2,200,200)
+    blocks = {block2}
     for i=1,1 do
         --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
         --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
