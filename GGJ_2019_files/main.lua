@@ -73,7 +73,7 @@ function love.load()
     sadSound = love.audio.newSource("audio/Bruitages/stress2.wav","static")
     grabSound = love.audio.newSource("audio/Bruitages/grab.wav","static")
     releaseSound = love.audio.newSource("audio/Bruitages/release.wav", "static")
-    --tchakSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
 end
 
 
