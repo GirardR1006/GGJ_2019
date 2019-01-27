@@ -4,12 +4,12 @@ balance = {}
 function balance.create()
     ourBalance = {}
     ourBalance.harmony = 0
-    gPath="graphisme/animation/jauge/"
-    
+    gPath="graphisme/animation/jauge/" 
     ourBalance.background = love.graphics.newImage(gPath.."fond-jauge-small.png")
     ourBalance.sprSheet = love.graphics.newImage(gPath.."anim-jauge-balance/result_sprite.png")
-    ourBalance.animation = balance.newAnimation(sprSheet,90,50,1)
-return balance
+    ourBalance.animation = balance.newAnimation(ourBalance.sprSheet,90,50,1)
+    return ourBalance
+end
 
 function balance.newAnimation(image, width, height, duration)
     local animation = {}
@@ -49,12 +49,8 @@ function balance.computeEquilibrium(ourBalance,grid)
 end
 
 --Draw the correct balance frame according to harmony of Home
---My soul is doomed
 function balance.draw(ourBalance)
-    love.graphics.draw(ourBalance.background)
-    --Balance fixed
-    local xO = 437
-    local yO = 0
+    local bg = ourBalance.background
     local harmony = ourBalance.harmony
     local anim = ourBalance.animation
     local targetQuad = 0
@@ -63,8 +59,11 @@ function balance.draw(ourBalance)
     elseif harmony > 12 then
         targetQuad = 24
     else
-        targetQuad = 12 + harmony
+        targetQuad = 13 + harmony
     end
-    love.graphics.draw(anim.spriteSheet, anim.quads[targetQuad],xO,yO)
-
+    love.graphics.draw(bg,screenWidth/2,0)
+    --Don't ask me why it's 21
+    love.graphics.draw(anim.spriteSheet, anim.quads[targetQuad],screenWidth/2+21,0)
 end
+
+return balance

@@ -16,6 +16,8 @@ local HC = require "HC" --Need HadronCollider module to be installed
 Polygon = require "HC.polygon"
 local block = love.filesystem.load("block.lua")
 local block = block()
+local balance = love.filesystem.load("balance.lua")
+local balance = balance()
 
 --[[
 #####################
@@ -70,6 +72,8 @@ function love.load()
     --Setting blocks
     block1 = block.create(warudo)
     blocks = {block1}
+    --Setting balance
+    ourBalance = balance.create()
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
 	musicTrack:setLooping(true)
@@ -93,7 +97,7 @@ function love.draw()
         for i,entity in pairs(blocks) do
             block.draw(entity)
         end
-        --love.graphics.draw(background)
+        balance.draw(ourBalance)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then
