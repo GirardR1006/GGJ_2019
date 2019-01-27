@@ -71,9 +71,9 @@ function love.load()
     --Setting balance
     ourBalance = balance.create()
     --Setting blocks
-    block1 = block.create(warudo,5,2,100,100)
-    block2 = block.create(warudo,6,1,150,100)
-    block3 = block.create(warudo,7,2,100,150)
+    block1 = block.create(warudo,9,2,50,100)
+    block2 = block.create(warudo,6,1,200,100)
+    block3 = block.create(warudo,7,2,300,200)
     block4 = block.create(warudo,1,2,200,100)
     blocks = {block1}
     for i=1,1 do
