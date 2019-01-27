@@ -27,16 +27,34 @@ function block.move(block)
     end
 end
 
-function block.release(block)
+function block.release(block,myHome,i)
+    toRemove = false
     if block.isGrabbed == 1 then
-        if not player1.grabing then
+        if not player1.grabbing then
             block.isGrabbed = 0
+            it,jt = home.whereOnGrid(myHome, block.shape:center())
+            if it>0 then
+                if myHome.grid.m[it][jt]==0 then
+                    toRemove=true
+                    myHome.grid.m[it][jt] = 1
+                end
+            end
         end
     end
     if block.isGrabbed == 2 then
-        if not player2.grabing then
+        if not player2.grabbing then
             block.isGrabbed = 0
+            it,jt = home.whereOnGrid(myHome, block.shape:center())
+            if it>0 then
+                if myHome.grid.m[it][jt]==0 then
+                    toRemove=true
+                    myHome.grid.m[it][jt] = 2
+                end
+            end
         end
+    end
+    if toRemove then
+        table.remove(blocks,i)
     end
 end
     --block.blockMap[1][0]

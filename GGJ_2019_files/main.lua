@@ -67,12 +67,12 @@ function love.load()
     block1 = block.create(warudo)
     blocks = {block1}
     --Setting audio	
-    musicTrack = love.audio.newSource("audio/musique/ost1.wav")
-    happySound = love.audio.newSource("audio/Bruitages/content2.wav")
-    sadSound = love.audio.newSource("audio/Bruitages/stress2.wav")
-    grabSound = love.audio.newSource("audio/Bruitages/stress2.wav")
-    releaseSound = love.audio.newSource("audio/Bruitages/stress2.wav")
-    tchakSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    --musicTrack = love.audio.newSource("audio/musique/ost1.wav")
+    --happySound = love.audio.newSource("audio/Bruitages/content2.wav")
+    --sadSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    --grabSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    --releaseSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    --tchakSound = love.audio.newSource("audio/Bruitages/stress2.wav")
 end
 
 
@@ -85,7 +85,9 @@ function love.draw()
 	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
-        block.draw(block1)
+        for i,entity in pairs(blocks) do
+            block.draw(entity)
+        end
         love.graphics.draw(background)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
@@ -179,17 +181,17 @@ function love.update(dt)
         state.level=true
     end
     if state.level then
-        player.updateGrab(player1)
-        player.updateGrab(player2)
         manageCollision()
         move(dt)
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
-        xtemp,ytemp = player1.shape:center()
-        print(Home.whereOnGrid(ourHome,xtemp,ytemp))
+        --xtemp,ytemp = player1.shape:center()
+        --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
         --music:play()
+        player.updateGrab(player1)
+        player.updateGrab(player2)
         for i,entity in pairs(blocks) do
-            block.release(entity)
+            block.release(entity,ourHome,i)
         end
     end
     love.draw()

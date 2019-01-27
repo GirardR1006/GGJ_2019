@@ -93,20 +93,12 @@ function home.whereOnGrid(myHome,x,y)
         for j=1,23 do
             xA,yA,xB,yB,xC,yC = home.getPointFromInd(myHome,i,j)
             triangle = Polygon(xA,yA,xB,yB,xC,yC)
-            --print(xA,yA)
             if triangle:contains(x,y) then
                 return i,j
-            --else 
-              --  if triangle:contains(x+5,y+5) then
-                --    return i,j
-               -- end
-            else
-                --return 0,0
             end
         end
-    else
-        --return 0,0
     end
+    return 0,0
     
 end
 
@@ -151,15 +143,25 @@ function home.getPointFromInd(home,i,j)
     return xA,yA,xB,yB,xC,yC
 end
 
-function home.draw(home)
-    local firstPoly = home.grid.midLeft
-    local x,y = home.grid.shape:center()
-    local spr = home.sprite
+function home.draw(myHome)
+    local firstPoly = myHome.grid.midLeft
+    local x,y = myHome.grid.shape:center()
+    local spr = myHome.sprite
     pointList = extractPointsFromPoly(firstPoly)
     love.graphics.polygon("line",pointList)
-    love.graphics.circle("line",x,y, home.grid.radius)
+    love.graphics.circle("line",x,y, myHome.grid.radius)
     love.graphics.circle("fill",x,y, 50)
     love.graphics.draw(spr,screenWidth/2-spr:getWidth(),screenHeight/2-spr:getHeight())
+    for i=1,12 do
+        for j=1,23 do
+            if myHome.grid.m[i][j]==1 then
+                love.graphics.polygon("fill",home.getPointFromInd(myHome,i,j))
+            end
+            if myHome.grid.m[i][j]==2 then
+                love.graphics.polygon("fill",home.getPointFromInd(myHome,i,j))
+            end
+        end
+    end
 end
 
 return home
