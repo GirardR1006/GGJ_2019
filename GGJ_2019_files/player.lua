@@ -44,7 +44,7 @@ end
 --Section bruitages
 function player.playGrabSound(once)
 	if not once then
-		grabSound.play()
+		grabSound:play()
 	end		
 end
 
@@ -186,15 +186,15 @@ function player.draw(actualPlayer,beginning)
     --love.graphics.circle("fill",x,y,15)
 end
 
-function player.updateGrab(player)
-    local gAxis = joystick:getAxis(player.grabIndex)
+function player.updateGrab(actualPlayer)
+    local gAxis = joystick:getAxis(actualPlayer.grabIndex)
     if gAxis>-0.5 then
-        player.grabbing=true
-		player.playGrabSound(player.grabSoundOnce)
-		player.grabSoundOnce = true 
+        actualPlayer.grabbing=true
+		player.playGrabSound(actualPlayer.grabSoundOnce)
+		actualPlayer.grabSoundOnce = true 
     else
-        player.grabbing=false
-		player.grabSoundOnce = false
+        actualPlayer.grabbing=false
+		actualPlayer.grabSoundOnce = false
     end
 end
 
