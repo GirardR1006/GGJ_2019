@@ -68,6 +68,8 @@ function love.load()
     --Setting grid
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
+    --Setting balance
+    ourBalance = balance.create()
     --Setting blocks
     block1 = block.create(warudo,5,2,100,100)
     block2 = block.create(warudo,6,1,150,100)
@@ -78,8 +80,6 @@ function love.load()
         --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
         --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
     end
-    --Setting balance
-    ourBalance = balance.create()
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
     musicTrack:setLooping(true)
@@ -205,6 +205,10 @@ function love.update(dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end
+        --Update balance score regarding to the grid
+        local grid = ourHome.grid.m
+        balance.computeEquilibrium(ourBalance,grid)
+        
     end
     if state.intro then
         intro:play()
