@@ -92,6 +92,7 @@ function love.load()
     tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
     --Setting video
     intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
+    lucioles = love.graphics.newVideo("graphisme/animation/lucioles.ogv")
     --State intro
     state.mainMenu = true
 end
@@ -101,9 +102,10 @@ end
 -- Can vary according to game state
 function love.draw()
     if state.level then
+        love.graphics.draw(lucioles)
         love.graphics.setBackgroundColor(255,255,255)
         love.graphics.draw(background)
-	player.draw(player1)
+	    player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
         for i,entity in pairs(blocks) do
@@ -202,8 +204,9 @@ function love.update(dt)
         --xtemp,ytemp = player1.shape:center()
         --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
         musicTrack:play()
-	player.updateEmotion(player1, dt)
-	player.updateEmotion(player2, dt)
+	    player.updateEmotion(player1, dt)
+	    player.updateEmotion(player2, dt)
+        lucioles:play()
         for i,entity in pairs(blocks) do
             removed = block.release(entity,ourHome,i)
             if removed then
