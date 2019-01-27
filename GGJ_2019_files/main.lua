@@ -79,8 +79,8 @@ function love.load()
     block4 = block.create(warudo,1,2,200,200)
     blocks = {block1,block2}
     for i=1,1 do
-        --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
-        --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
+    --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
+    --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
     end
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
@@ -93,7 +93,7 @@ function love.load()
     --Setting video
     intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
     --State intro
-    --state.mainMenu = true
+    state.mainMenu = true
 end
 
 
@@ -111,7 +111,7 @@ function love.draw()
         end
         balance.draw(ourBalance)
     elseif state.intro then
-        love.graphics.draw(intro)
+        --love.graphics.draw(intro)
     elseif state.mainMenu then
         love.graphics.draw(mainMenuScreen)
         --love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)

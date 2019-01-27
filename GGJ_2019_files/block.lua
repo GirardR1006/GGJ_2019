@@ -9,12 +9,12 @@ function block.create(collider,variation,color,initX,initY)
     if variation == 1 then
         mainBlock.blockMap={{1,1}}
         mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+h,initX+a,initY)
-        mainBlock.parity = 1
+        mainBlock.parity = -1
     end
 	if variation == 2 then
         mainBlock.blockMap={{1,1}}
         mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY+-h,initX+a,initY)
-        mainBlock.parity = -1
+        mainBlock.parity = 1
     end
     if variation == 3 then
         mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
@@ -23,8 +23,8 @@ function block.create(collider,variation,color,initX,initY)
     end
 	if variation == 4 then 
 		mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
-		mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX-a/2,initY+h)
-		mainBlock.parity = -1 
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+a,initY,initX+3*a/2,initY+h,initX+a/2,initY+h)
+		mainBlock.parity = 1 
 	end
 	if variation == 5 then --losange vertical
 		mainBlock.blockMap = {{1,1},{2,1}}
@@ -42,19 +42,24 @@ function block.create(collider,variation,color,initX,initY)
 		mainBlock.parity = -1 
 	end
 	if variation == 8 then 
-		mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
-		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+a,initY, initX+a/2, initY+h, initX-a/2, initY+h)
-		mainBlock.parity = -1 
+		mainBlock.blockMap = {{1,1},{2,1},{2,2},{3,2}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+a,initY,initX+3*a/2,initY+h, initX+a, initY+2*h, initX+a/2, initY+h)
+		mainBlock.parity = 1 
 	end
 	if variation == 9 then 
-		mainBlock.blockMap = {{1,2},{1,3},{1,4},{2,2},{2,1}}
+		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,1},{2,0}}
 		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+a, initY, initX+a/2, initY+h, initX-a/2, initY+h)
-		mainBlock.parity = -1 
+		mainBlock.parity = 1 
 	end
 	if variation == 10 then 
-		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,1},{3,1}}
-		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+a, initY, initX+a/2, initY+h, initX-a/2, initY+h)
-		mainBlock.parity = -1 
+		mainBlock.blockMap = {{1,1},{1,2},{0,2},{2,1},{2,2}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+a,initY-2*h,initX+3*a/2,initY-h, initX+a, initY, initX+3*a/2, initY+h, initX+a/2, initY+h)
+		mainBlock.parity = 1 
+	end
+	if variation == 11 then 
+		mainBlock.blockMap = {{1,1},{1,2},{1,3},{2,3},{2,4}}
+		mainBlock.shape = collider:polygon(initX,initY,initX+a/2,initY-h,initX+3*a/2,initY-h,initX+2*a,initY, initX+5*a/2, initY+h, initX+3*a/2, initY+h, initX+a, initY)
+		mainBlock.parity = 1 
 	end
 	
 

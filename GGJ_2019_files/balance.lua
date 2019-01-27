@@ -44,11 +44,8 @@ function balance.computeEquilibrium(ourBalance,grid)
             end
         end
     end
-    print("accLeft")
-    print(accLeft)
-    print("accRight")
-    print(accRight)
     local finalPerturbation  = accLeft - accRight
+    print("Balance changed")
     balance.changeHarmony(ourBalance,finalPerturbation)
 end
 
