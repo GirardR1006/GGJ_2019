@@ -1,20 +1,22 @@
 block = {}
 
 
-function block.create(collider)
+function block.create(collider,variation,color,initX,initY)
     local mainBlock={}
-    mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}--{{0,0},{0,1},{1,0}}
-    mainBlock.color = 2
     local a=30
     local h=a*math.sqrt(3)/2
-    --mainBlock.perimeter = polygon(100,100, 120,115, 80,115)
-    --mainBlock.shape = shapes.newPolygonShape(mainBlock.perimeter)
-    mainBlock.shape = collider:polygon(100,100,100+a,100,100+3*a/2,100+h,100+a,100+2*h,100,100+2*h,100+a/2,100+h)--collider:circle(150,150,5)
+    
+    if variation == 3 then
+        mainBlock.blockMap = {{1,1},{1,2},{2,1},{2,2}}
+        mainBlock.shape = collider:polygon(initX,initY,initX+a,initY,initX+3*a/2,initY+h,initX+a,initY+2*h,initX,initY+2*h,initX+a/2,initY+h)
+    end
+
+    mainBlock.color = color
     mainBlock.isGrabbed=0
     local xC,yC = mainBlock.shape:center()
-    mainBlock.centerToX = 100 + a/2 - xC
-    mainBlock.centerToY = 100 + h/2 - yC
     mainBlock.parity = -1
+    mainBlock.centerToX = 100 + a/2 - xC
+    mainBlock.centerToY = 100 - mainBlock.parity*h/2 - yC
     return mainBlock
 end
 
