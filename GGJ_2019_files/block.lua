@@ -36,6 +36,7 @@ function block.draw(block)
     love.graphics.setBackgroundColor(255,255,255)
 end
 
+
 function block.move(block)
     if block.isGrabbed==1 then
         local x,y = player1.shape:center()
@@ -84,13 +85,13 @@ function block.release(block,myHome,i)
             if it>0 then
                 if myHome.grid.m[it][jt]==0 then
                     toRemove=true
-                    myHome.grid.m[it][jt] = block.color
                 end
             end
         end
     end
     if toRemove then
         table.remove(blocks,i)
+		tchakSound:play()
     end
 end
     --block.blockMap[1][0]

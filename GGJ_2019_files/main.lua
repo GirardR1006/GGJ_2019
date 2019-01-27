@@ -71,12 +71,13 @@ function love.load()
     block1 = block.create(warudo)
     blocks = {block1}
     --Setting audio	
-    --musicTrack = love.audio.newSource("audio/musique/ost1.wav")
-    --happySound = love.audio.newSource("audio/Bruitages/content2.wav")
-    --sadSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
+	musicTrack:setLooping(true)
+    happySound = love.audio.newSource("audio/Bruitages/content3.wav","static")
+    sadSound = love.audio.newSource("audio/Bruitages/stress2.wav","static")
     grabSound = love.audio.newSource("audio/Bruitages/grab.wav","static")
-    --releaseSound = love.audio.newSource("audio/Bruitages/stress2.wav")
-    --tchakSound = love.audio.newSource("audio/Bruitages/stress2.wav")
+    releaseSound = love.audio.newSource("audio/Bruitages/release.wav", "static")
+    tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
 end
 
 
@@ -187,13 +188,16 @@ function love.update(dt)
     if state.level then
         manageCollision()
         move(dt)
+		
         player.updateAnimation(player1,dt)
         player.updateAnimation(player2,dt)
         --xtemp,ytemp = player1.shape:center()
         --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
-        --music:play()
+        musicTrack:play()
         player.updateGrab(player1)
         player.updateGrab(player2)
+		player.updateEmotion(player1, dt)
+		player.updateEmotion(player2, dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end
