@@ -122,7 +122,7 @@ function block.release(block,myHome,i)
                     map = block.blockMap
                     fits = true
                     for bite,tri in pairs(map) do
-                        if it+tri[1]-1>0 and it+tri[1]<13 and jt+tri[2]>0 and jt+tri[2]<24 then
+                        if it+tri[1]-1>0 and it+tri[1]-1<13 and jt+tri[2]-1>0 and jt+tri[2]-1<24 then
                             if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
                                 fits=false
                             --myHome.grid.m[it][jt] = block.color
@@ -153,7 +153,7 @@ function block.release(block,myHome,i)
                     map = block.blockMap
                     fits = true
                     for bite,tri in pairs(map) do
-                        if it+tri[1]-1>0 and it+tri[1]<13 and jt+tri[2]>0 and jt+tri[2]<24 then
+                        if it+tri[1]-1>0 and it+tri[1]-1<13 and jt+tri[2]-1>0 and jt+tri[2]-1<24 then
                             if not (myHome.grid.m[it+tri[1]-1][jt+tri[2]-1]==0) then
                                 fits=false
                             end

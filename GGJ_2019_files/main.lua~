@@ -266,7 +266,7 @@ function love.update(dt)
                 balance.computeEquilibrium(ourBalance,grid)
             end
         end
-        if checkCompletion() then
+        if checkCompletion then
             love.event.quit()
         end
     love.draw()    
