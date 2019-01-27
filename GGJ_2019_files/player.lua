@@ -31,7 +31,7 @@ function player.create(collider)--,colours)
     sprShBR=love.graphics.newImage(gPath.."move-rose/bas-rose/result_sprite.png")
     sprShBGR=love.graphics.newImage(gPath.."move-rose/bas-gauche-rose/result_sprite.png")
     sprShBDR=love.graphics.newImage(gPath.."move-rose/bas-droite-rose/result_sprite.png")
-	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/rose-content/result_sprite.jpg")
+	sprShHappy=love.graphics.newImage("graphisme/animation/emotions/rose-content/result_sprite.png")
     mainPlayer.animHR = player.newAnimation(sprShHR,45,45,1)--,colours)
     mainPlayer.animHDR = player.newAnimation(sprShHDR,45,45,1)--,colours)
     mainPlayer.animHGR = player.newAnimation(sprShHGR,45,45,1)--,colours)
@@ -156,63 +156,62 @@ function player.draw(actualPlayer,beginning)
     --Drawing only the first quad is a terrible hack
     --And it's terrible on screen
     --Please forgive me
-    if dir.down then
-        --print("Dir down")
-        if dir.right then
-            local spriteNumHDR = player.getSpriteNum(animHDR)
-            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNumHDR],xO,yO)
+	if actualPlayer.happyState then
+		local spriteNum = player.getSpriteNum(animHappy)
+		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], xO, yO)
+	else
+        if dir.down then
+            if dir.right then
+                local spriteNumHDR = player.getSpriteNum(animHDR)
+                love.graphics.draw(animHDR.spriteSheet, animHDR.quads[spriteNumHDR],xO,yO)
+                love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+                love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+            elseif dir.left then
+                local spriteNum = player.getSpriteNum(animHGR)
+                love.graphics.draw(animHGR.spriteSheet, animHGR.quads[spriteNum],xO,yO) 
+                love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO) 
+                love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+            else
+                local spriteNum = player.getSpriteNum(animHR)
+                love.graphics.draw(animHR.spriteSheet, animHR.quads[spriteNum],xO,yO)
+                love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
+                love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
+            end
+            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
+
+        elseif dir.up then
+            --print("Dir up")
+            if dir.right then
+                local spriteNum = player.getSpriteNum(animBDR)
+                love.graphics.draw(animBDR.spriteSheet, animBDR.quads[spriteNum],xO,yO)
+                love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+                love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+            elseif dir.left then
+                local spriteNum = player.getSpriteNum(animBGR)
+                love.graphics.draw(animBGR.spriteSheet, animBGR.quads[spriteNum],xO,yO) 
+                love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO) 
+                love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+            else
+                local spriteNum = player.getSpriteNum(animBR)
+                love.graphics.draw(animBR.spriteSheet, animBR.quads[spriteNum],xO,yO)
+                love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+                love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
+            end
+            local spriteNum = player.getSpriteNum(animBR)
+            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
             love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
-            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
-        elseif dir.left then
-            local spriteNum = player.getSpriteNum(animHGR)
-            love.graphics.draw(animHGR.spriteSheet, animHGR.quads[spriteNum],xO,yO) 
-            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO) 
-            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
+            love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
         else
-            local spriteNum = player.getSpriteNum(animHR)
-            love.graphics.draw(animHR.spriteSheet, animHR.quads[spriteNum],xO,yO)
+            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
+            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
+            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
+            love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
             love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
             love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
         end
-        love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
-        love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
-        love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
-
-    elseif dir.up then
-        --print("Dir up")
-        if dir.right then
-            local spriteNum = player.getSpriteNum(animBDR)
-            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[spriteNum],xO,yO)
-            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
-            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
-        elseif dir.left then
-            local spriteNum = player.getSpriteNum(animBGR)
-            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[spriteNum],xO,yO) 
-            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO) 
-            love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
-        else
-            local spriteNum = player.getSpriteNum(animBR)
-            love.graphics.draw(animBR.spriteSheet, animBR.quads[spriteNum],xO,yO)
-            love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
-            love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
-        end
-        local spriteNum = player.getSpriteNum(animBR)
-        love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
-        love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
-        love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
-    else
-        love.graphics.draw(animBR.spriteSheet, animBR.quads[1],xO,yO)
-        love.graphics.draw(animBGR.spriteSheet, animBGR.quads[1],xO,yO)
-        love.graphics.draw(animBDR.spriteSheet, animBDR.quads[1],xO,yO)
-        love.graphics.draw(animHR.spriteSheet, animHR.quads[1],xO,yO)
-        love.graphics.draw(animHGR.spriteSheet, animHGR.quads[1],xO,yO)
-        love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
     end
-    --love.graphics.circle("fill",x,y,15)
-	if mainPlayer.happyState then
-		local spriteNum = player.getSpriteNum(animHappy)
-		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], x0, y0)
-	end
 end
 
 function player.updateGrab(actualPlayer)
@@ -275,8 +274,10 @@ end
 
 
 function player.updateEmotion(actualPlayer, dt)
-	actualPlayer.timerHappy = mainPlayer.timerHappy + dt
-	if actualPlayer.timerHappy > 15 then
+	actualPlayer.timerHappy = actualPlayer.timerHappy + dt
+    print("pouet")
+    print(actualPlayer.timerHappy)
+	if actualPlayer.timerHappy > 5 then
 		happySound:play()
 		actualPlayer.timerHappy = 0
 		actualPlayer.happyState = true
