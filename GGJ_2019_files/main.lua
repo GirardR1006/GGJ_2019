@@ -211,7 +211,7 @@ function spawnBlocks(dt)
     end
 end
 
-function checkComletion()
+function checkCompletion()
     for i=1,12 do
         for j=1,23 do
             if ourHome.grid.m[i][j]==0 then

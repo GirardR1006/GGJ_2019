@@ -5,7 +5,7 @@
 MAIN_FOLDER="."
 FILES_FOLDER="$MAIN_FOLDER/GGJ_2019_files/"
 DIST_FOLDER="$MAIN_FOLDER/dist/"
-TITLE="game"
+TITLE="Tandem"
 
 cd $FILES_FOLDER
 zip -9 -r $TITLE.love . 
