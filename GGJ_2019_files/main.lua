@@ -192,6 +192,7 @@ function love.update(dt)
         musicTrack:play()
         player.updateGrab(player1)
         player.updateGrab(player2)
+		player.updateEmotion(actualPlayer, dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end

@@ -209,7 +209,7 @@ function player.draw(actualPlayer,beginning)
         love.graphics.draw(animHDR.spriteSheet, animHDR.quads[1],xO,yO)
     end
     --love.graphics.circle("fill",x,y,15)
-	if mainPlayer.happyState
+	if mainPlayer.happyState then
 		local spriteNum = player.getSpriteNum(animHappy)
 		love.graphics.draw(animHappy.spriteSheet, animHappy.quads[spriteNum], x0, y0)
 	end
@@ -276,12 +276,12 @@ end
 
 function player.updateEmotion(actualPlayer, dt)
 	actualPlayer.timerHappy = mainPlayer.timerHappy + dt
-	if actualPlayer.timerHappy > 15
+	if actualPlayer.timerHappy > 15 then
 		happySound:play()
 		actualPlayer.timerHappy = 0
 		actualPlayer.happyState = true
 	end
-	if actualPlayer.timerHappy >= actualPlayer.animHappy.duration
+	if actualPlayer.timerHappy >= actualPlayer.animHappy.duration then
 		actualPlayer.happyState = false
 	end
 end
