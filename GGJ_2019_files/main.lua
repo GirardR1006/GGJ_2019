@@ -28,7 +28,7 @@ Functions definitions
 --Store the states of the game. Behaviour of the whole game will change accordingly to state.
 --Can be anything like pause, dialog, menu, etc.
 local state = {}
-state.mainMenu=true
+state.mainMenu=false
 state.level=false
 state.dialog=false
 state.pause=false
@@ -106,7 +106,7 @@ function love.load()
     intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
     lucioles = love.graphics.newVideo("graphisme/animation/lucioles.ogv")
     --State intro
-    state.mainMenu = true
+    state.intro = true
 end
 
 
@@ -125,7 +125,7 @@ function love.draw()
         end
         balance.draw(ourBalance)
     elseif state.intro then
-        --love.graphics.draw(intro)
+        love.graphics.draw(intro)
     elseif state.mainMenu then
         love.graphics.draw(mainMenuScreen)
         --love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
