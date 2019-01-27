@@ -61,9 +61,8 @@ function balance.draw(ourBalance)
     else
         targetQuad = 13 + harmony
     end
-    love.graphics.draw(bg,screenWidth/2,0)
-    --Don't ask me why it's 21
-    love.graphics.draw(anim.spriteSheet, anim.quads[targetQuad],screenWidth/2+21,0)
+    love.graphics.draw(bg,(screenWidth-bg:getWidth())/2,0)
+    love.graphics.draw(anim.spriteSheet, anim.quads[targetQuad],(screenWidth-90)/2,20)
 end
 
 return balance

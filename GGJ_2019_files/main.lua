@@ -62,24 +62,26 @@ function love.load()
     color2 = {65/255,223/255,140/255,1}
     colorHome1 = {223/255,65/255,195/255,0.5}
     colorHome2 = {65/255,223/255,140/255,0.5}
-    --Loading background
+    --Loading background, static images
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
+    gridSprite = love.graphics.newImage("graphisme/fonds-home/grille-rose.png")
+    mainMenuScreen =  love.graphics.newImage("graphisme/animation/mainMenuScreen.png")
     --Setting grid
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
+    --Setting balance
+    ourBalance = balance.create()
     --Setting blocks
-    block1 = block.create(warudo,9,2,250,450)
-    block2 = block.create(warudo,10,1,400,500)
-    block3 = block.create(warudo,11,2,300,200)
-    block4 = block.create(warudo,3,2,400,100)
-    blocks = {block3}
+    block1 = block.create(warudo,5,2,100,100)
+    block2 = block.create(warudo,6,1,150,100)
+    block3 = block.create(warudo,7,2,100,150)
+    block4 = block.create(warudo,1,2,200,200)
+    blocks = {block1}
     for i=1,1 do
         --table.insert(blocks,block.create(warudo,1,1,200+40*i,100))        
         --table.insert(blocks,block.create(warudo,1,2,200+20*i,200))
     end
-    --Setting balance
-    ourBalance = balance.create()
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
     musicTrack:setLooping(true)
@@ -111,7 +113,8 @@ function love.draw()
     elseif state.intro then
         --love.graphics.draw(intro)
     elseif state.mainMenu then
-        love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
+        love.graphics.draw(mainMenuScreen)
+        --love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
     end
 
 end
@@ -205,6 +208,10 @@ function love.update(dt)
         for i,entity in pairs(blocks) do
             block.release(entity,ourHome,i)
         end
+        --Update balance score regarding to the grid
+        local grid = ourHome.grid.m
+        balance.computeEquilibrium(ourBalance,grid)
+        
     end
     if state.intro then
         intro:play()
