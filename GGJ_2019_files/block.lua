@@ -16,6 +16,7 @@ function block.draw(block)
     --love.graphics.polygon('fill',block.shape:unpack())
 end
 
+
 function block.move(block)
     if block.isGrabbed==1 then
         local x,y = player1.shape:center()
@@ -36,6 +37,7 @@ function block.release(block,myHome,i)
             if it>0 then
                 if myHome.grid.m[it][jt]==0 then
                     toRemove=true
+					tchakSound:play()
                     myHome.grid.m[it][jt] = 1
                 end
             end
@@ -48,6 +50,7 @@ function block.release(block,myHome,i)
             if it>0 then
                 if myHome.grid.m[it][jt]==0 then
                     toRemove=true
+					tchakSound:play()
                     myHome.grid.m[it][jt] = 2
                 end
             end
