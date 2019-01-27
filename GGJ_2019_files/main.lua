@@ -68,7 +68,7 @@ function love.load()
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
     --Setting blocks
-    block1 = block.create(warudo)
+    block1 = block.create(warudo,3,2,100,100)
     blocks = {block1}
     --Setting audio	
     musicTrack = love.audio.newSource("audio/musique/Tandem2.wav", "stream")
