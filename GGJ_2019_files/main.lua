@@ -239,7 +239,6 @@ function love.update(dt)
         musicTrack:play()
 	    player.updateEmotion(player1, dt)
 	    player.updateEmotion(player2, dt)
-        print(lucioles:isPlaying())
         if not (lucioles:isPlaying()) then
             lucioles:rewind()
             lucioles:play()
