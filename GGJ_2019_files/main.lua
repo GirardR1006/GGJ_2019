@@ -50,14 +50,11 @@ function love.load()
     --Setting joystick and players
     local joysticks = love.joystick.getJoysticks()
     joystick=joysticks[1]
-    player1 = player.create(warudo)
-    player2 = player.create(warudo)
-    local joysticks = love.joystick.getJoysticks()
-    joystick=joysticks[1]	
+    player1 = player.create(warudo,1)
+    player2 = player.create(warudo,2)
     player1.xAxisIndex = 1
     player1.yAxisIndex = 2
     player1.grabIndex = 3
-    player2 = player.create(warudo)
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
     player2.grabIndex = 6
@@ -94,7 +91,7 @@ function love.load()
     --Setting video
     intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
     --State intro
-    state.mainMenu = true
+    --state.mainMenu = true
 end
 
 
@@ -193,7 +190,7 @@ function love.update(dt)
     if player1.grabbing and player2.grabbing and state.mainMenu then
         print("Transitioning from Main Menu to Level")
         state.mainMenu=false
-        state.intro=true
+        state.level=true
     end
     if state.level then
         manageCollision()
@@ -213,7 +210,7 @@ function love.update(dt)
         intro:play()
         if not(intro:isPlaying()) then
             state.intro=false
-            state.level=true
+            state.mainMenu=true
         end
     end
 end
