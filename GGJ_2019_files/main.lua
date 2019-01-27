@@ -62,9 +62,10 @@ function love.load()
     color2 = {65/255,223/255,140/255,1}
     colorHome1 = {223/255,65/255,195/255,0.5}
     colorHome2 = {65/255,223/255,140/255,0.5}
-    --Loading background
+    --Loading background, static images
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
+    mainMenuScreen =  love.graphics.newImage("graphisme/animation/mainMenuScreen.png")
     --Setting grid
     triangleWidth = 30
     ourHome = Home.create(warudo,triangleWidth)
@@ -111,7 +112,8 @@ function love.draw()
     elseif state.intro then
         love.graphics.draw(intro)
     elseif state.mainMenu then
-        love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
+        love.graphics.draw(mainMenuScreen)
+        --love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
     end
 
 end
