@@ -65,6 +65,7 @@ function love.load()
     --Loading background, static images
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
+    gridSprite = love.graphics.newImage("graphisme/fonds-home/grille-rose.png")
     mainMenuScreen =  love.graphics.newImage("graphisme/animation/mainMenuScreen.png")
     --Setting grid
     triangleWidth = 30
@@ -92,8 +93,9 @@ function love.load()
     tchakSound = love.audio.newSource("audio/Bruitages/accroche.wav", "static")
     --Setting video
     intro = love.graphics.newVideo("graphisme/animation/video_intro/output.ogv")
+    lucioles = love.graphics.newVideo("graphisme/animation/lucioles.ogv")
     --State intro
-    --state.mainMenu = true
+    state.mainMenu = true
 end
 
 
@@ -101,9 +103,10 @@ end
 -- Can vary according to game state
 function love.draw()
     if state.level then
+        love.graphics.draw(lucioles)
         love.graphics.setBackgroundColor(255,255,255)
         love.graphics.draw(background)
-	player.draw(player1)
+	    player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
         for i,entity in pairs(blocks) do
@@ -111,7 +114,7 @@ function love.draw()
         end
         balance.draw(ourBalance)
     elseif state.intro then
-        love.graphics.draw(intro)
+        --love.graphics.draw(intro)
     elseif state.mainMenu then
         love.graphics.draw(mainMenuScreen)
         --love.graphics.print('Welcome, press a trigger to begin', screenWidth/2,screenHeight/2,0,1,1)
@@ -193,7 +196,6 @@ Game actually runs here
 function love.update(dt)
     player.updateGrab(player1)
     player.updateGrab(player2)
-    love.draw()
     if player1.grabbing and player2.grabbing and state.mainMenu then
         print("Transitioning from Main Menu to Level")
         state.mainMenu=false
@@ -207,15 +209,18 @@ function love.update(dt)
         --xtemp,ytemp = player1.shape:center()
         --print(Home.whereOnGrid(ourHome,xtemp,ytemp))
         musicTrack:play()
-	player.updateEmotion(player1, dt)
-	player.updateEmotion(player2, dt)
+	    player.updateEmotion(player1, dt)
+	    player.updateEmotion(player2, dt)
+        lucioles:play()
         for i,entity in pairs(blocks) do
-            block.release(entity,ourHome,i)
+            removed = block.release(entity,ourHome,i)
+            if removed then
+                --Update balance score regarding to the grid
+                local grid = ourHome.grid.m
+                balance.computeEquilibrium(ourBalance,grid)
+            end
         end
-        --Update balance score regarding to the grid
-        local grid = ourHome.grid.m
-        balance.computeEquilibrium(ourBalance,grid)
-        
+    love.draw()    
     end
     if state.intro then
         intro:play()
