@@ -152,17 +152,21 @@ function home.draw(myHome)
     love.graphics.circle("line",x,y, myHome.grid.radius)
     love.graphics.circle("fill",x,y, 50)
     love.graphics.draw(spr,x-spr:getWidth()/2,y-spr:getHeight()/2)
-    --love.graphics.draw(spr,x,y)
     for i=1,12 do
         for j=1,23 do
             if myHome.grid.m[i][j]==1 then
+                love.graphics.setColor(colorHome1)
                 love.graphics.polygon("fill",home.getPointFromInd(myHome,i,j))
             end
             if myHome.grid.m[i][j]==2 then
+                love.graphics.setColor(colorHome2)
                 love.graphics.polygon("fill",home.getPointFromInd(myHome,i,j))
             end
         end
     end
+    love.graphics.reset()
+    love.graphics.setBackgroundColor(255,255,255)
+    
 end
 
 return home

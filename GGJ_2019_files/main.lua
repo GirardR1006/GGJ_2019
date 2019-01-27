@@ -56,7 +56,11 @@ function love.load()
     player2 = player.create(warudo)
     player2.xAxisIndex = 4
     player2.yAxisIndex = 5
-    player2.grabIndex = 6 
+    player2.grabIndex = 6
+    color1 = {223/255,65/255,195/255,1}
+    color2 = {65/255,223/255,140/255,1}
+    colorHome1 = {223/255,65/255,195/255,0.5}
+    colorHome2 = {65/255,223/255,140/255,0.5}
     --Loading background
     background = love.graphics.newImage("graphisme/fonds-home/fond-rose.png")
     homeSprite = love.graphics.newImage("graphisme/fonds-home/home-rose.png")
@@ -82,13 +86,14 @@ end
 function love.draw()
     if state.level then
         love.graphics.setBackgroundColor(255,255,255)
+        love.graphics.draw(background)
 	player.draw(player1)
         player.draw(player2)
         home.draw(ourHome)
         for i,entity in pairs(blocks) do
             block.draw(entity)
         end
-        love.graphics.draw(background)
+        --love.graphics.draw(background)
     elseif state.pause then
         love.graphics.print('Game paused, press p button to unpause', screenWidth/2,screenHeight/2,0,1,1)
     elseif state.mainMenu then

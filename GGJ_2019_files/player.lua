@@ -275,9 +275,7 @@ end
 
 function player.updateEmotion(actualPlayer, dt)
 	actualPlayer.timerHappy = actualPlayer.timerHappy + dt
-    print("pouet")
-    print(actualPlayer.timerHappy)
-	if actualPlayer.timerHappy > 5 then
+	if actualPlayer.timerHappy > 3 then
 		happySound:play()
 		actualPlayer.timerHappy = 0
 		actualPlayer.happyState = true
