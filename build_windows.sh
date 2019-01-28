@@ -11,5 +11,5 @@ cd $FILES_FOLDER
 zip -9 -r $TITLE.love . 
 cd "../dist"
 cat "love.exe" "../GGJ_2019_files/$TITLE.love" > $TITLE.exe
-zip -9 -r "game.zip" . 
-cp game.zip ../
+#zip -9 -r "game.zip" . 
+#cp game.zip ../

@@ -1,6 +1,6 @@
-dist/*.exe
-dist/*.love
+*.exe
+*.love
 *.zip
-GGJ_2019_files/*.love
-GGJ_2019_files/*.exe
+*.love
+*.exe
 *.swp
